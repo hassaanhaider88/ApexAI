@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Poppins", sans-serif;
+  direction: ltr;
+}
+.urdu {
+  font-family: "Noto Nastaliq Urdu", serif;
+  direction: rtl;
+}
+.english {
+  font-family: "Noto Nastaliq English", serif;
+  direction: rtl;
+}
+/* Perfect Infinite Marquee + Hover Pause (100% working) */
+.animate-marquee-infinite {
+  display: flex;
+  animation: marquee 20s linear infinite;
+}
+
+/* @keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+} */
+
+/* Optional: agar chaaho to group-hover bhi use kar sakte ho */
+.group:hover .animate-marquee-infinite {
+  animation-play-state: paused;
+}
+/* .animate-marquee {
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+} */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
