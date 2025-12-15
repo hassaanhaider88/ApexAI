@@ -26,26 +26,6 @@ const AddCourse = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Auto WhatsApp Message
-    const message =
-      `*NEW REGISTRATION*%0A%0A` +
-      `*Name:* ${formData.firstName} ${formData.lastName}%0A` +
-      `*Email:* ${formData.email}%0A` +
-      `*Phone:* ${formData.phone}%0A` +
-      `*Gender:* ${formData.gender}%0A` +
-      `*Course:* ${formData.course}%0A` +
-      `*Address:* ${formData.address}, ${formData.city}, ${formData.province}%0A` +
-      `*Comments:* ${formData.comments || "N/A"}%0A%0A` +
-      `Submitted on: ${new Date().toLocaleString()}`;
-
-    const whatsappURL = `https://wa.me/923000123456?text=${message}`;
-    window.open(whatsappURL, "_blank");
-
-    // Save to localStorage
-    // const leads = JSON.parse(localStorage.getItem("leads") || "[]");
-    // leads.push({ ...formData, date: new Date().toLocaleString() });
-    // localStorage.setItem("leads", JSON.stringify(leads));
-
     // alert("Registration Successful! Aapka form WhatsApp pe chala gaya hai!");
     setFormData({
       firstName: "",
@@ -175,7 +155,7 @@ const AddCourse = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="md:col-span-2 bg-yellow-500 hover:bg-yellow-600 text-purple-900 py-6 rounded-full text-3xl font-extrabold shadow-2xl transform hover:scale-105 transition-all duration-300"
+            className=" mb-5 relative  left-[100%] bg-yellow-500 hover:bg-yellow-600 text-purple-900 py-3 rounded-full text-xl w-fit px-10 font-extrabold shadow-2xl transform hover:scale-105 transition-all duration-300"
           >
             Submit
           </button>
