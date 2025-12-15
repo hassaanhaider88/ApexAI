@@ -1,0 +1,67 @@
+.toggle-input {
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.toggle-background {
+  fill: #d3d3d6;
+  transition: fill 0.4s;
+}
+
+.toggle-input:checked + svg .toggle-background {
+  fill: #1868e3;
+}
+
+.toggle-circle-center {
+  fill: white;
+  transition: transform 0.6s;
+}
+
+.toggle-input:checked + svg .toggle-circle-center {
+  transform: translateX(150px);
+}
+
+.toggle-circle {
+  fill: white;
+  transition: transform 0.45s;
+  transform-origin: center;
+}
+
+.toggle-circle.left {
+  transform: scale(1);
+}
+
+.toggle-input:checked + svg .toggle-circle.left {
+  transform: scale(0);
+}
+
+.toggle-circle.right {
+  transform: scale(0);
+}
+
+.toggle-input:checked + svg .toggle-circle.right {
+  transform: scale(1);
+}
+
+.toggle-icon {
+  transition: fill 0.4s;
+}
+
+.toggle-icon.on {
+  fill: #d3d3d6;
+}
+
+.toggle-input:checked + svg .toggle-icon.on {
+  fill: white;
+}
+
+.toggle-icon.off {
+  fill: #eaeaec;
+}
+
+.toggle-input:checked + svg .toggle-icon.off {
+  fill: #1868e3;
+}

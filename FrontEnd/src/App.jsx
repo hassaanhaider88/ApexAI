@@ -10,9 +10,16 @@ import Registration from "./pages/Registration";
 import About from "./pages/About";
 import ContactPage from "./pages/Contact";
 import BlogPage from "./pages/Blog";
+import UpdateCourse from "./pages/UpdateCourse";
 import { useEffect, useState } from "react";
+import { GetAllCoursesFromBE } from "./store/useCourseStore";
+import useCourseStore from "./store/useCourseStore";
+import DummyCoures from "./Data/Coures";
+import AddCourse from "./pages/AddCourse";
+
 function App() {
   const Location = useLocation();
+  const { setAllCourses, AllCourses } = useCourseStore();
   const [IsShowSideBar, setIsShowSideBar] = useState(true);
   useEffect(() => {
     if (Location.pathname == "/") {
@@ -21,6 +28,10 @@ function App() {
       setIsShowSideBar(false);
     }
   }, [Location]);
+  useEffect(() => {
+    // GetAllCoursesFromBE(); here actual course will be call each time
+    setAllCourses(DummyCoures);
+  }, []);
   return (
     <>
       <div className="flex flex-col min-h-screen">
@@ -35,6 +46,8 @@ function App() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/courses/:courseName" element={<CourseDetail />} />
+          <Route path="/update-course" element={<UpdateCourse />} />
+          <Route path="/add-course" element={<AddCourse />} />
         </Routes>
         <Footer />
       </div>

@@ -1,11 +1,20 @@
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { FaRegEdit } from "react-icons/fa";
+import { FiDelete } from "react-icons/fi";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { AiOutlineMail } from "react-icons/ai";
 import { useEffect } from "react";
 import { useState } from "react";
 import BackEndURI from "../utils/BackEndURI";
 import { toast } from "react-toastify";
+import useCourseStore from "../store/useCourseStore";
+import { Link, useNavigate } from "react-router-dom";
+import AllRegisterUsers from "../components/AllRegisteredUser";
+import RegisterUsers from "../Data/RegisterUser";
 
 export default function Admin() {
+  const { setAllCourses, AllCourses } = useCourseStore();
+  const navigate = useNavigate();
   const [leads] = useState(JSON.parse(localStorage.getItem("leads") || "[]"));
   const [CheckAdminRegister, setCheckAdminRegister] = useState(false);
   const [AdminEmail, setAdminEmail] = useState("");
@@ -19,6 +28,41 @@ export default function Admin() {
       setCheckAdminRegister(false);
     }
   }, [CheckAdminRegister]);
+
+  const handleCourseUpdate = async (courseId) => {
+    const IsReallyUpdate = confirm("Are you sure to update Course");
+    if (IsReallyUpdate) {
+      navigate(`/update-course?id=${courseId}`);
+    }
+  };
+  // useEffect(() => {
+  //   console.log(AllCourses);
+  // }, [AllCourses]);
+  const hanldeCourseDeletion = async (courseId) => {
+    const IsReallyDelete = confirm("Are you sure to delete Course");
+    if (IsReallyDelete) {
+      try {
+        const res = await fetch(
+          `${BackEndURI}/api/course/delete?id=${courseId}`,
+          {
+            method: "DELETE",
+          }
+        );
+        const data = await res.json();
+        if (data.sucess) {
+          toast.success("Course Deleted Sucessfully");
+          return;
+        } else {
+          toast.error("Something Went Wrong");
+          return;
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Something Went Wrong");
+        return;
+      }
+    }
+  };
 
   const handleAdminLogin = async (e) => {
     e.preventDefault();
@@ -50,13 +94,60 @@ export default function Admin() {
   };
 
   return CheckAdminRegister ? (
-    <div className="min-h-screen bg-gray-900 text-white py-20">
-      <div className="max-w-6xl mx-auto px-6">
+    <div className="min-h-screen mt-10 bg-gray-900 text-white py-10">
+      <div className="mx-auto px-6">
         <h1 className="text-5xl font-extrabold text-yellow-400 mb-10 text-center">
           ADMIN PANEL
         </h1>
         <div className="SHowAmdinToRegisterUsersCourseAndAddCourseCard">
           {/*  here first show the all course with option to update and delete buttons and give link to navigate to viewall student page */}
+          <h1 className="text-2xl">All Courses</h1>
+          <div className="flex w-full mt-5 flex-col gap-3">
+            {AllCourses.map((course, idx) => {
+              return (
+                <div
+                  key={idx}
+                  className="w-full md:px-10 px-5 flex items-center justify-between py-3 rounded-full shadow-md bg-white"
+                >
+                  <div className="flex gap-4 text-black items-center">
+                    <img
+                      src={course.image}
+                      alt={course.title}
+                      className="w-24 h-12 shadow-2xl rounded-lg"
+                    />
+                    <h1 className="text-black font-semibold">{course.title}</h1>
+                  </div>
+                  {/* action  */}
+                  <div className="flex gap-5 items-center">
+                    <button
+                      onClick={() => handleCourseUpdate(course._id)}
+                      className="hover:scale-95 duration-200 transition-all active:scale-105"
+                    >
+                      <FaRegEdit size={30} color="#F8CB15" />
+                    </button>
+                    <button
+                      onClick={() => hanldeCourseDeletion(course._id)}
+                      className="hover:scale-95 duration-200 transition-all active:scale-105"
+                    >
+                      <FiDelete size={30} color="red" />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-4 w-full flex justify-end items-center">
+            <Link
+              to={"/add-course"}
+              className="py-3 px-4 rounded-full flex justify-center items-center gap-2 hover:scale-95 active:scale-110 duration-200 transition-all bg-[#f8cb15] "
+            >
+              <IoIosAddCircleOutline />
+              Add New Course
+            </Link>
+          </div>
+          {/* all  Registered User goes here */}
+          <div className="text-2xl mb-5">All Register Users</div>
+          <AllRegisterUsers data={RegisterUsers} />
         </div>
         {/* {leads.length === 0 ? (
           <p className="text-center text-3xl">No registrations yet...</p>

@@ -45,3 +45,39 @@ body {
     transform: translateX(-100%);
   }
 }
+
+.scroll-wrapper {
+  overflow-x: auto;
+  transform: rotateX(180deg);
+}
+
+.scroll-inner {
+  transform: rotateX(180deg);
+}
+
+.table {
+  min-width: 1200px;
+}
+
+/*  scroll bar styling */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #F8CB15;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #f8cb15b2;
+}
