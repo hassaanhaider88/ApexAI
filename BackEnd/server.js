@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./Configs/ConnectDB.js";
 
 import AdminRouter from "./Routers/Admin.js";
+import RegisterAdminRouter from "./Routers/RegisterUser.js";
 
 
 const app = express();
@@ -38,5 +39,6 @@ app.use('/api/admin',AdminRouter)
 
 
 /// common user related APIs
+app.use('/api/user',RegisterAdminRouter)
 
 app.listen(PORT, () => console.log(`Server Running on ${PORT}`));

@@ -44,7 +44,7 @@
 
 import { useEffect, useState } from "react";
 
-export default function SocialSidebar() {
+export default function SocialSidebar({ IsShow = true }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
@@ -65,13 +65,13 @@ export default function SocialSidebar() {
 
   return (
     <div
-      className={`fixed right-0 top-1/2 -translate-y-1/2 z-50 transition-all duration-500 
+      className={` ${IsShow ? "block" : "hidden"} fixed right-0 top-1/2 -translate-y-1/2 z-50 transition-all duration-500 
       ${
-        visible
+        visible 
           ? "opacity-100 pointer-events-auto"
           : "opacity-0 pointer-events-none"
       }
-      flex flex-col gap-2 bg-blue-950 w-28 h-96 items-center p-3 rounded-l-xl shadow-2xl`}
+       flex-col gap-4 bg-blue-950 w-28 h-96 flex justify-center  items-center p-3 rounded-l-xl shadow-2xl`}
     >
       <a
         href="https://facebook.com"

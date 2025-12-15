@@ -53,9 +53,12 @@ export default function Admin() {
     <div className="min-h-screen bg-gray-900 text-white py-20">
       <div className="max-w-6xl mx-auto px-6">
         <h1 className="text-5xl font-extrabold text-yellow-400 mb-10 text-center">
-          ADMIN PANEL - NEW LEADS ({leads.length})
+          ADMIN PANEL
         </h1>
-        {leads.length === 0 ? (
+        <div className="SHowAmdinToRegisterUsersCourseAndAddCourseCard">
+          {/*  here first show the all course with option to update and delete buttons and give link to navigate to viewall student page */}
+        </div>
+        {/* {leads.length === 0 ? (
           <p className="text-center text-3xl">No registrations yet...</p>
         ) : (
           <div className="grid gap-6">
@@ -91,7 +94,7 @@ export default function Admin() {
               </div>
             ))}
           </div>
-        )}
+        )} */}
       </div>
     </div>
   ) : (

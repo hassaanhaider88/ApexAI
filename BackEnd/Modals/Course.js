@@ -4,6 +4,7 @@ const CourseSchema = new Schema({
   title: {
     type: String,
     required: true,
+    unique: true,
   },
   duration: {
     type: String,
@@ -45,8 +46,9 @@ const CourseSchema = new Schema({
     type: Array,
     required: true,
   },
-});
-
+},
+  { timestamps: true }
+);
 
 const Course = model("Course", CourseSchema);
 

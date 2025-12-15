@@ -1,9 +1,23 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
+  const Location = useLocation();
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [IsShowTopBanner, setIsShowTopBanner] = useState(true);
   const location = useLocation();
+
+  useEffect(() => {
+    if (
+      Location.pathname == "/admin" ||
+      Location.pathname == "/add-course" ||
+      Location.pathname == "view-register-user"
+    ) {
+      setIsShowTopBanner(false);
+    } else {
+      setIsShowTopBanner(true);
+    }
+  }, [Location]);
 
   const isActive = (path) => {
     if (path.startsWith("#")) {
@@ -26,7 +40,7 @@ export default function Navbar() {
   return (
     <>
       {/* Top Banner */}
-      <div className="bg-[#1E0040] text-white py-3 font-semibold overflow-hidden select-none">
+      <div className={` ${IsShowTopBanner ? "block" : "hidden"} bg-[#1E0040] text-white py-3 font-semibold overflow-hidden select-none`}>
         <div className="inline-flex whitespace-nowrap">
           <div
             className="flex items-center animate-marquee-infinite"
@@ -67,7 +81,7 @@ export default function Navbar() {
           <div className="flex items-center gap-4 justify-between h-20 md:h-24">
             {/* Logo + APEX + AI IT Institute */}
             <div className="flex items-center pt-2">
-              <a href="/" className="flex items-center gap-3 sm:gap-4">
+              <Link to="/" className="flex items-center gap-3 sm:gap-4">
                 <img
                   src="/ApsxLogo2.svg"
                   alt="APEX"
@@ -82,7 +96,7 @@ export default function Navbar() {
                     IT Institute
                   </p>
                 </div>
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -121,12 +135,12 @@ export default function Navbar() {
                     { name: "REGISTRATIONS", path: "/registration" },
                     { name: "ABOUT US", path: "/about" },
                     { name: "BLOG", path: "/blog" },
-                    { name: "TESTIMONIAL", path: "#testimonial-section" },
+                    { name: "TESTIMONIAL", path: "/testimonial-section" },
                     { name: "CONTACT US", path: "/contact" },
                   ].map((item) => (
-                    <a
+                    <Link
                       key={item.path}
-                      href={item.path}
+                      to={item.path}
                       onClick={(e) => handleClick(e, item.path)}
                       className={`relative transition-all duration-300 ${
                         isActive(item.path)
@@ -138,13 +152,13 @@ export default function Navbar() {
                       {isActive(item.path) && (
                         <span className="absolute -bottom-3 left-0 right-0 h-1 bg-yellow-500 rounded-full shadow-lg animate-pulse"></span>
                       )}
-                    </a>
+                    </Link>
                   ))}
 
                   {/* COURSES Dropdown */}
                   <div className="relative group">
-                    <a
-                      href="/courses"
+                    <Link
+                      to="/courses"
                       className={`flex items-center gap-2 transition-all font-semibold ${
                         isActive("/courses")
                           ? "text-yellow-500 font-extrabold text-lg"
@@ -153,7 +167,7 @@ export default function Navbar() {
                     >
                       COURSES
                       <i className="fas fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
-                    </a>
+                    </Link>
                     {isActive("/courses") && (
                       <span className="absolute -bottom-3 left-0 right-0 h-1 bg-yellow-500 rounded-full shadow-lg animate-pulse"></span>
                     )}
@@ -166,28 +180,28 @@ export default function Navbar() {
                           "Flutter Development",
                           "Freelancing Mastery",
                         ].map((c) => (
-                          <a
+                          <Link
                             key={c}
-                            href={`/courses/${c
+                            to={`/courses/${c
                               .toLowerCase()
                               .replace(/ /g, "-")}`}
                             className="block p-4 rounded-xl hover:bg-purple-50 font-semibold"
                           >
                             {c}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <a
-                  href="/registration"
+                <Link
+                  to="/registration"
                   className="bg-[#FFB400] text-white px-10 py-5 rounded-full font-extrabold shadow-xl hover:bg-[#291260] transform hover:scale-110 transition-all flex items-center gap-3"
                 >
                   <i className="fas fa-phone-volume"></i>
                   ENROLL NOW
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -212,17 +226,17 @@ export default function Navbar() {
             </div>
 
             <div className="p-6 space-y-6 text-lg font-semibold">
-              <a
-                href="/"
+              <Link
+                to="/"
                 onClick={() => setMobileMenu(false)}
                 className={`block py-3 ${
                   isActive("/") ? "text-yellow-400" : "hover:text-yellow-300"
                 }`}
               >
                 HOME
-              </a>
-              <a
-                href="/courses"
+              </Link>
+              <Link
+                to="/courses"
                 onClick={() => setMobileMenu(false)}
                 className={`block py-3 ${
                   isActive("/courses")
@@ -231,9 +245,9 @@ export default function Navbar() {
                 }`}
               >
                 COURSES
-              </a>
-              <a
-                href="/registration"
+              </Link>
+              <Link
+                to="/registration"
                 onClick={() => setMobileMenu(false)}
                 className={`block py-3 ${
                   isActive("/registration")
@@ -242,9 +256,9 @@ export default function Navbar() {
                 }`}
               >
                 REGISTRATIONS
-              </a>
-              <a
-                href="#about-section"
+              </Link>
+              <Link
+                to="/about-section"
                 onClick={(e) => {
                   handleClick(e, "#about-section");
                   setMobileMenu(false);
@@ -256,9 +270,9 @@ export default function Navbar() {
                 }`}
               >
                 ABOUT US
-              </a>
-              <a
-                href="/contact"
+              </Link>
+              <Link
+                to="/contact"
                 onClick={() => setMobileMenu(false)}
                 className={`block py-3 ${
                   isActive("/contact")
@@ -267,16 +281,16 @@ export default function Navbar() {
                 }`}
               >
                 CONTACT US
-              </a>
+              </Link>
             </div>
 
             <div className="absolute bottom-10 left-6 right-6">
-              <a
-                href="/registration"
+              <Link
+                to="/registration"
                 className="block text-center bg-yellow-500 text-purple-900 py-5 rounded-full font-extrabold text-xl shadow-xl hover:bg-yellow-400 transform hover:scale-105 transition"
               >
                 ENROLL NOW
-              </a>
+              </Link>
             </div>
           </div>
         </div>

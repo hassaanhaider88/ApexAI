@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import SocialSidebar from "./components/SocialSidebar";
@@ -10,12 +10,22 @@ import Registration from "./pages/Registration";
 import About from "./pages/About";
 import ContactPage from "./pages/Contact";
 import BlogPage from "./pages/Blog";
+import { useEffect, useState } from "react";
 function App() {
+  const Location = useLocation();
+  const [IsShowSideBar, setIsShowSideBar] = useState(true);
+  useEffect(() => {
+    if (Location.pathname == "/") {
+      setIsShowSideBar(true);
+    } else {
+      setIsShowSideBar(false);
+    }
+  }, [Location]);
   return (
-    <BrowserRouter>
+    <>
       <div className="flex flex-col min-h-screen">
         <Navbar />
-        <SocialSidebar />
+        <SocialSidebar IsShow={IsShowSideBar} />
         <Routes>
           <Route path="/admin" element={<Admin />} />
           <Route path="/" element={<Home />} />
@@ -28,7 +38,7 @@ function App() {
         </Routes>
         <Footer />
       </div>
-    </BrowserRouter>
+    </>
   );
 }
 

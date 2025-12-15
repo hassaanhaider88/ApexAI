@@ -12,6 +12,7 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   phone: {
     type: String,
@@ -21,11 +22,11 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  course: {
-    type: mongoose.Schema.Types.ObjectId,
+  course: [{
+    type: Schema.Types.ObjectId,
     ref: "Course",
     required: true,
-  },
+  }],
 
   address: {
     type: String,
@@ -45,7 +46,9 @@ const userSchema = new Schema({
   commits: {
     type: String,
   },
-});
+},
+  { timestamps: true }
+);
 
 const RegisterUser = model("RegisterUser", userSchema);
 

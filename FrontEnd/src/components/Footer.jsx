@@ -12,11 +12,29 @@
 //   );
 // }
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function Footer() {
+  const [IsAdminPage, setIsAdminPage] = useState(false);
+  var Location = useLocation();
+  useEffect(() => {
+    if (
+      Location.pathname == "/admin" ||
+      Location.pathname == "/add-course" ||
+      Location.pathname == "view-register-user"
+    ) {
+      setIsAdminPage(true);
+    } else {
+      setIsAdminPage(false);
+    }
+  }, [Location]);
   return (
-    <footer className="bg-gradient-to-b from-purple-950 to-purple-900 text-white py-16">
+    <footer
+      className={` ${
+        IsAdminPage ? "hidden" : "block"
+      } bg-gradient-to-b from-purple-950 to-purple-900 text-white py-16`}
+    >
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         {/* Column 1 – Logo + Description */}
         <div className="space-y-4">

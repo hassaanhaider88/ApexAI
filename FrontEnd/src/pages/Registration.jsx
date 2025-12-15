@@ -5,6 +5,7 @@ export default function Registration() {
     firstName: "",
     lastName: "",
     email: "",
+    password: "",
     phone: "",
     gender: "",
     course: "",
@@ -33,11 +34,11 @@ export default function Registration() {
     window.open(whatsappURL, "_blank");
 
     // Save to localStorage
-    const leads = JSON.parse(localStorage.getItem("leads") || "[]");
-    leads.push({ ...formData, date: new Date().toLocaleString() });
-    localStorage.setItem("leads", JSON.stringify(leads));
+    // const leads = JSON.parse(localStorage.getItem("leads") || "[]");
+    // leads.push({ ...formData, date: new Date().toLocaleString() });
+    // localStorage.setItem("leads", JSON.stringify(leads));
 
-    alert("Registration Successful! Aapka form WhatsApp pe chala gaya hai!");
+    // alert("Registration Successful! Aapka form WhatsApp pe chala gaya hai!");
     setFormData({
       firstName: "",
       lastName: "",
@@ -115,6 +116,18 @@ export default function Registration() {
               setFormData({ ...formData, phone: e.target.value })
             }
             className="border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
+          />
+
+          {/* Row 2.5 for password */}
+          <input
+            type="password"
+            placeholder="Your Password"
+            required
+            value={formData.password}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
+            className="md:col-span-2 border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
           />
 
           {/* Row 3 */}
