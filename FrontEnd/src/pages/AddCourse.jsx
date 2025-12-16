@@ -99,7 +99,7 @@ const AddCourse = () => {
     console.log(Data);
     if (Data.sucess) {
       toast.success("Course Added Sucessfully");
-      navigate("/admin");
+      navigate('/admin')
       return;
     } else {
       toast.error("Something Went Wrong");

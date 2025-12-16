@@ -23,10 +23,10 @@ export async function getAllCourseFromDB(req, res) {
   }
 }
 
-export function getSingeCourseFromDB(req, res) {
+export async function getSingeCourseFromDB(req, res) {
   try {
     const { courseId } = req.body;
-    const SingleCourse = Course.findById(courseId);
+    const SingleCourse = await Course.findById(courseId);
     if (SingleCourse) {
       return res.json({
         sucess: true,
@@ -49,6 +49,48 @@ export function getSingeCourseFromDB(req, res) {
 
 export async function UpdateCourse(req, res) {
   try {
+    const {
+      courseId,
+      image,
+      cTitle,
+      cCode,
+      cDuration,
+      cFee,
+      cTiming,
+      cInstructor,
+      cRegisteredUser,
+      cRatings,
+      cOverView,
+      cModules,
+      cBenefits,
+    } = req.body;
+
+    const SingleCourse = await Course.findByIdAndUpdate(courseId, {
+      image: image,
+      title: cTitle,
+      code: cCode,
+      duration: cDuration,
+      fee: cFee,
+      timing: cTiming,
+      instructor: cInstructor,
+      students: cRegisteredUser,
+      rating: cRatings,
+      overview: cOverView,
+      modules: cModules,
+      benefits: cBenefits,
+    });
+    if (SingleCourse) {
+      return res.json({
+        sucess: true,
+        message: "Single Course Update Sucessfully",
+        data: SingleCourse,
+      });
+    } else {
+      return res.json({
+        sucess: false,
+        message: "Somthing wents wrong..",
+      });
+    }
   } catch (error) {
     res.json({
       sucess: false,
