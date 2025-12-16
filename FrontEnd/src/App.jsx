@@ -16,6 +16,7 @@ import { GetAllCoursesFromBE } from "./store/useCourseStore";
 import useCourseStore from "./store/useCourseStore";
 import DummyCoures from "./Data/Coures";
 import AddCourse from "./pages/AddCourse";
+import SingleStudent from "./pages/SingleStudent";
 
 function App() {
   const Location = useLocation();
@@ -48,6 +49,8 @@ function App() {
           <Route path="/courses/:courseName" element={<CourseDetail />} />
           <Route path="/update-course" element={<UpdateCourse />} />
           <Route path="/add-course" element={<AddCourse />} />
+
+          <Route path="/students/:id" element={<SingleStudent />} />
         </Routes>
         <Footer />
       </div>

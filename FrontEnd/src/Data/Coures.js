@@ -1,6 +1,7 @@
 const DummyCoures = [
   {
     _id: "hmkcodeweb00001",
+    code: "hmk01",
     title: "Web Development (MERN Stack)",
     image:
       "https://i.pinimg.com/videos/thumbnails/originals/a4/f2/b4/a4f2b4425a88bc8a25b279447d95d488.0000000.jpg",
@@ -33,6 +34,7 @@ const DummyCoures = [
   },
   {
     _id: "hmkcodeweb00002",
+    code: "hmk02",
     title: "Digital Marketing Mastery",
     image:
       "https://i.pinimg.com/originals/f6/5c/2c/f65c2c197a3b0fc9777eccee754887da.png",
@@ -63,6 +65,8 @@ const DummyCoures = [
   },
   {
     _id: "hmkcodeweb00003",
+    code: "hmk03",
+
     title: "Flutter App Development",
     image:
       "https://i.pinimg.com/originals/dc/69/7b/dc697b41850bee12015e3889d5652310.jpg",
@@ -93,6 +97,8 @@ const DummyCoures = [
   },
   {
     _id: "hmkcodeweb00004",
+    code: "hmk04",
+
     title: "Freelancing Mastery (Upwork + Fiverr)",
     duration: "2 Months",
     image:

@@ -1,33 +1,16 @@
+import { BiLinkExternal } from "react-icons/bi";
 import { FiDelete } from "react-icons/fi";
 import { toast } from "react-toastify";
 import ToogleSwitch from "./ToogleSwitch";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AllRegisterUsers = ({ data }) => {
   const [AllUserData, setAllUserData] = useState(data);
-  const hanldeChangeToogleSwitch = async (user) => {
-    const confirmation = confirm("Are you sure you want to approve this user?");
-    console.log(user);
-    if (confirmation) {
-      toast.success("please wait");
-      return;
-    } else {
-      return;
-    }
-  };
-
-  const hanldeUserDelete = async (user) => {
-    const confirmation = confirm("Are you sure you want to delete this user?");
-    if (confirmation) {
-      toast.success("please wait");
-      return;
-    } else {
-      return;
-    }
-  };
-
+  const navigate = useNavigate();
   useEffect(() => {
     setAllUserData(data);
+    console.log(AllUserData);
   }, [AllUserData]);
 
   return (
@@ -41,12 +24,9 @@ const AllRegisterUsers = ({ data }) => {
                 <th className="px-4 py-3 border">Email</th>
                 <th className="px-4 py-3 border">Phone</th>
                 <th className="px-4 py-3 border">Gender</th>
-                <th className="px-4 py-3 border">City</th>
-                <th className="px-4 py-3 border">Province</th>
                 <th className="px-4 py-3 border">View Courses</th>
                 <th className="px-4 py-3 border">Approved Registration</th>
-                <th className="px-4 py-3 border">Approvness Actions</th>
-                <th className="px-4 py-3 border">Delete</th>
+                <th className="px-4 py-3 border">View Student</th>
               </tr>
             </thead>
 
@@ -62,13 +42,11 @@ const AllRegisterUsers = ({ data }) => {
                   <td className="px-4 py-2 border">{user.email}</td>
                   <td className="px-4 py-2 border">{user.phone}</td>
                   <td className="px-4 py-2 border">{user.gender}</td>
-                  <td className="px-4 py-2 border">{user.city}</td>
-                  <td className="px-4 py-2 border">{user.province}</td>
                   <td className="px-4 py-2 border gap-2 flex flex-col">
                     {user.course?.map((course, idx) => {
                       return (
-                        <h2 key={idx}  className="text-nowrap">
-                          {course.title}
+                        <h2 key={idx} className="text-nowrap">
+                          {course.code}
                         </h2>
                       );
                     })}
@@ -89,19 +67,11 @@ const AllRegisterUsers = ({ data }) => {
                         : "Pending"}
                     </span>
                   </td>
-                  <td className="w-full pt-3 h-full border bg-transparent border-transparent items-center justify-center flex gap-3">
-                    <ToogleSwitch
-                      IsCourseRegistrationApproved={
-                        user.isCourseRegistrationApproved
-                      }
-                      user={user}
-                      hanldeChange={hanldeChangeToogleSwitch}
+                  <td className="px-4 cursor-pointer py-2 border">
+                    <BiLinkExternal
+                      onClick={() => navigate(`/students/${user._id}`)}
+                      size={30}
                     />
-                  </td>
-                  <td className="px-4 py-2 border">
-                    <button onClick={() => hanldeUserDelete(user)}>
-                      <FiDelete size={30} color="red" />
-                    </button>
                   </td>
                 </tr>
               ))}

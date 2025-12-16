@@ -1,6 +1,7 @@
 import DummyCoures from "./Coures";
 const RegisterUsers = [
   {
+    _id: "kuchbhi12340001",
     firstName: "Hassaan",
     lastName: "Haider",
     email: "hassaanhaider088@gmail.com",
@@ -14,6 +15,7 @@ const RegisterUsers = [
     commits: "Kuch bhi ya kuch nahi",
   },
   {
+    _id: "kuchbhi12340002",
     firstName: "Ali",
     lastName: "Khan",
     email: "alikhan@gmail.com",
@@ -27,6 +29,7 @@ const RegisterUsers = [
     commits: "Interested in evening classes",
   },
   {
+    _id: "kuchbhi12340003",
     firstName: "Ayesha",
     lastName: "Malik",
     email: "ayesha.malik@gmail.com",
@@ -40,6 +43,7 @@ const RegisterUsers = [
     commits: "Will confirm after discussion",
   },
   {
+    _id: "kuchbhi12340004",
     firstName: "Usman",
     lastName: "Raza",
     email: "usmanraza@gmail.com",
@@ -53,6 +57,7 @@ const RegisterUsers = [
     commits: "Already paid fee",
   },
   {
+    _id: "kuchbhi12340005",
     firstName: "Fatima",
     lastName: "Sheikh",
     email: "fatimasheikh@gmail.com",
@@ -66,6 +71,7 @@ const RegisterUsers = [
     commits: "Needs weekend schedule",
   },
   {
+    _id: "kuchbhi12340006",
     firstName: "Ahmed",
     lastName: "Butt",
     email: "ahmedbutt@gmail.com",
@@ -79,6 +85,7 @@ const RegisterUsers = [
     commits: "Waiting for approval",
   },
   {
+    _id: "kuchbhi12340007",
     firstName: "Sara",
     lastName: "Iqbal",
     email: "saraiqbal@gmail.com",
@@ -92,6 +99,7 @@ const RegisterUsers = [
     commits: "Recommended by friend",
   },
   {
+    _id: "kuchbhi12340008",
     firstName: "Bilal",
     lastName: "Hussain",
     email: "bilalh@gmail.com",
@@ -105,6 +113,7 @@ const RegisterUsers = [
     commits: "Very motivated student",
   },
   {
+    _id: "kuchbhi12340009",
     firstName: "Hina",
     lastName: "Arshad",
     email: "hina.arshad@gmail.com",
@@ -118,6 +127,7 @@ const RegisterUsers = [
     commits: "Needs fee installment",
   },
   {
+    _id: "kuchbhi12340010",
     firstName: "Zain",
     lastName: "Ali",
     email: "zainali@gmail.com",
@@ -131,6 +141,7 @@ const RegisterUsers = [
     commits: "Morning batch preferred",
   },
   {
+    _id: "kuchbhi12340011",
     firstName: "Maryam",
     lastName: "Nawaz",
     email: "maryamn@gmail.com",
@@ -144,6 +155,7 @@ const RegisterUsers = [
     commits: "Quick learner",
   },
   {
+    _id: "kuchbhi12340012",
     firstName: "Saad",
     lastName: "Mehmood",
     email: "saadm@gmail.com",
@@ -157,6 +169,7 @@ const RegisterUsers = [
     commits: "Needs guidance",
   },
   {
+    _id: "kuchbhi12340013",
     firstName: "Noor",
     lastName: "Fatima",
     email: "noorfatima@gmail.com",
@@ -170,6 +183,7 @@ const RegisterUsers = [
     commits: "Interested in advanced topics",
   },
   {
+    _id: "kuchbhi12340014",
     firstName: "Imran",
     lastName: "Shaikh",
     email: "imrans@gmail.com",
@@ -183,6 +197,7 @@ const RegisterUsers = [
     commits: "Corporate background",
   },
   {
+    _id: "kuchbhi12340015",
     firstName: "Khadija",
     lastName: "Rehman",
     email: "khadijar@gmail.com",
@@ -196,6 +211,7 @@ const RegisterUsers = [
     commits: "Needs counseling",
   },
   {
+    _id: "kuchbhi12340016",
     firstName: "Hamza",
     lastName: "Asif",
     email: "hamzaasif@gmail.com",
@@ -209,6 +225,7 @@ const RegisterUsers = [
     commits: "Freelancing focused",
   },
   {
+    _id: "kuchbhi12340017",
     firstName: "Sana",
     lastName: "Yousaf",
     email: "sanay@gmail.com",
@@ -222,6 +239,7 @@ const RegisterUsers = [
     commits: "Flexible timing",
   },
   {
+    _id: "kuchbhi12340018",
     firstName: "Danish",
     lastName: "Qureshi",
     email: "danishq@gmail.com",
@@ -235,6 +253,7 @@ const RegisterUsers = [
     commits: "Waiting for response",
   },
   {
+    _id: "kuchbhi12340019",
     firstName: "Rabia",
     lastName: "Akram",
     email: "rabiaa@gmail.com",
@@ -248,6 +267,7 @@ const RegisterUsers = [
     commits: "Very consistent",
   },
   {
+    _id: "kuchbhi12340020",
     firstName: "Farhan",
     lastName: "Latif",
     email: "farhanl@gmail.com",
@@ -261,6 +281,7 @@ const RegisterUsers = [
     commits: "Online classes preferred",
   },
   {
+    _id: "kuchbhi12340021",
     firstName: "Anum",
     lastName: "Shah",
     email: "anumshah@gmail.com",
