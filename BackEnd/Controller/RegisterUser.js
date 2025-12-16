@@ -84,8 +84,8 @@ export async function RegisterUser(req, res) {
 export async function GetProfile(req, res) {
   try {
     const { userId } = req.body;
-    const User = await User.findById(userId).populate("course");
-    if (!User) {
+    const getUser = await User.findById(userId).populate("course");
+    if (!getUser) {
       return res.json({
         sucess: false,
         message: "User Not Found",
@@ -95,7 +95,7 @@ export async function GetProfile(req, res) {
     res.json({
       sucess: true,
       message: "User Found Sucessfully",
-      data: User,
+      data: getUser,
     });
   } catch (error) {
     res.json({

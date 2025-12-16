@@ -9,7 +9,7 @@ router.post('/register',RegisterUser)
 
 router.post('/login',LoginUser);
 
-router.get('/get-profile',GetProfile);
+router.post('/get-profile',GetProfile);
 
 router.put('/update-profile',UpdateUser);
 
