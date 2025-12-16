@@ -99,26 +99,12 @@ const AddCourse = () => {
     console.log(Data);
     if (Data.sucess) {
       toast.success("Course Added Sucessfully");
+      navigate("/admin");
       return;
     } else {
       toast.error("Something Went Wrong");
       return;
     }
-    // alert("Registration Successful! Aapka form WhatsApp pe chala gaya hai!");
-    // setFormData({
-    // imageURL
-    //   cTitle: "",
-    //   cCode: "",
-    //   cDuration: "",
-    //   cFee: "",
-    //   cTiming: "",
-    //   cInstructor: "",
-    //   cRegisteredUser: "",
-    //   cRatings: "",
-    //   cOverView: "",
-    //   cModules: [],
-    //   cBenefits: [],
-    // });
   };
   return (
     <div className="w-full px-5 md:px-10 min-h-screen">

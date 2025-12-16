@@ -30,9 +30,9 @@ function App() {
     }
   }, [Location]);
   useEffect(() => {
-    // GetAllCoursesFromBE(); here actual course will be call each time
-    setAllCourses(DummyCoures);
+    GetAllCoursesFromBE();
   }, []);
+
   return (
     <>
       <div className="flex flex-col min-h-screen">

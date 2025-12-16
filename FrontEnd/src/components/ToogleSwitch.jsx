@@ -6,6 +6,7 @@ const ToogleSwitch = ({ IsCourseRegistrationApproved, hanldeChange, user }) => {
     <div className="relative h-8 aspect-[292/142]">
       <label className="block w-full h-full cursor-pointer">
         <input
+        title="Change User Resgistrion Approness" 
           type="checkbox"
           checked={IsCourseRegistrationApproved}
           onChange={() => hanldeChange(user)}

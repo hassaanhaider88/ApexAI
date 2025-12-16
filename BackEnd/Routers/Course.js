@@ -12,7 +12,7 @@ const router = express.Router();
 router.post("/create", CreateCourse);
 router.get("/get-all", getAllCourseFromDB);
 router.post("/get-single", getSingeCourseFromDB);
-router.get("/update", UpdateCourse);
+router.post("/update", UpdateCourse);
 router.post("/delete", DeleteCourse);
 
 export default router;

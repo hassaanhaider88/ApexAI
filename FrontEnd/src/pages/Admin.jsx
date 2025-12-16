@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import BackEndURI from "../utils/BackEndURI";
 import { toast } from "react-toastify";
-import useCourseStore from "../store/useCourseStore";
+import useCourseStore, { GetAllCoursesFromBE } from "../store/useCourseStore";
 import { Link, useNavigate } from "react-router-dom";
 import AllRegisterUsers from "../components/AllRegisteredUser";
 import RegisterUsers from "../Data/RegisterUser";
@@ -29,28 +29,34 @@ export default function Admin() {
     }
   }, [CheckAdminRegister]);
 
+  useEffect(() => {
+    GetAllCoursesFromBE();
+  }, [AllCourses]);
+
   const handleCourseUpdate = async (courseId) => {
     const IsReallyUpdate = confirm("Are you sure to update Course");
     if (IsReallyUpdate) {
       navigate(`/update-course?id=${courseId}`);
     }
   };
-  // useEffect(() => {
-  //   console.log(AllCourses);
-  // }, [AllCourses]);
   const hanldeCourseDeletion = async (courseId) => {
     const IsReallyDelete = confirm("Are you sure to delete Course");
     if (IsReallyDelete) {
       try {
-        const res = await fetch(
-          `${BackEndURI}/api/course/delete?id=${courseId}`,
-          {
-            method: "DELETE",
-          }
-        );
+        const res = await fetch(`${BackEndURI}/api/course/delete`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            courseId,
+          }),
+        });
+        console.log(res);
         const data = await res.json();
         if (data.sucess) {
           toast.success("Course Deleted Sucessfully");
+          GetAllCoursesFromBE();
           return;
         } else {
           toast.error("Something Went Wrong");
@@ -103,7 +109,7 @@ export default function Admin() {
           {/*  here first show the all course with option to update and delete buttons and give link to navigate to viewall student page */}
           <h1 className="text-2xl">All Courses</h1>
           <div className="flex w-full mt-5 flex-col gap-3">
-            {AllCourses.map((course, idx) => {
+            {AllCourses?.map((course, idx) => {
               return (
                 <div
                   key={idx}
@@ -116,6 +122,12 @@ export default function Admin() {
                       className="w-24 h-12 shadow-2xl rounded-lg"
                     />
                     <h1 className="text-black font-semibold">{course.title}</h1>
+                    <h1 className="font-bold ">
+                      {course.code}
+                      <span className="ml-1 text-sm font-[300]">
+                        Course Code
+                      </span>
+                    </h1>
                   </div>
                   {/* action  */}
                   <div className="flex gap-5 items-center">

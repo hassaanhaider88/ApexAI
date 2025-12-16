@@ -10,11 +10,11 @@ export default useCourseStore;
 
 export async function GetAllCoursesFromBE() {
   try {
-    const Res = await fetch(`${BackEndURI}/api/courses`);
+    const Res = await fetch(`${BackEndURI}/api/course/get-all`);
     const data = await Res.json();
     if (!data) return;
-    useCourseStore.getState().setAllCourses(data);
-    return;
+    useCourseStore.getState().setAllCourses(data.data);
+    // return data.data;
   } catch (error) {
     console.log(error);
     return;

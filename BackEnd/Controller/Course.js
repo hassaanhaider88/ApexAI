@@ -1,7 +1,20 @@
 import Course from "../Modals/Course.js";
 
-export function getAllCourseFromDB(req, res) {
+export async function getAllCourseFromDB(req, res) {
   try {
+    const AllCourse = await Course.find();
+    if (AllCourse) {
+      return res.json({
+        sucess: true,
+        message: "All Course Fetch Sucessfully",
+        data: AllCourse,
+      });
+    } else {
+      return res.json({
+        sucess: false,
+        message: "Somthing wents wrong..",
+      });
+    }
   } catch (error) {
     res.json({
       sucess: false,
@@ -12,6 +25,20 @@ export function getAllCourseFromDB(req, res) {
 
 export function getSingeCourseFromDB(req, res) {
   try {
+    const { courseId } = req.body;
+    const SingleCourse = Course.findById(courseId);
+    if (SingleCourse) {
+      return res.json({
+        sucess: true,
+        message: "Single Course Fetch Sucessfully",
+        data: SingleCourse,
+      });
+    } else {
+      return res.json({
+        sucess: false,
+        message: "Somthing wents wrong..",
+      });
+    }
   } catch (error) {
     res.json({
       sucess: false,
@@ -20,7 +47,7 @@ export function getSingeCourseFromDB(req, res) {
   }
 }
 
-export function UpdateCourse(req, res) {
+export async function UpdateCourse(req, res) {
   try {
   } catch (error) {
     res.json({
@@ -30,8 +57,22 @@ export function UpdateCourse(req, res) {
   }
 }
 
-export function DeleteCourse(req, res) {
+export async function DeleteCourse(req, res) {
   try {
+    const { courseId } = req.body;
+    const SingleCourse = await Course.findByIdAndDelete(courseId);
+    if (SingleCourse) {
+      return res.json({
+        sucess: true,
+        message: "Single Course Delete",
+        data: SingleCourse,
+      });
+    } else {
+      return res.json({
+        sucess: false,
+        message: "Somthing wents wrong..",
+      });
+    }
   } catch (error) {
     res.json({
       sucess: false,
