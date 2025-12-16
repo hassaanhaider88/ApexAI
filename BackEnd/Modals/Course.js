@@ -2,14 +2,19 @@ import { Schema, model } from "mongoose";
 
 const CourseSchema = new Schema(
   {
+    image: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
       unique: true,
     },
-    image: {
+    code: {
       type: String,
       required: true,
+      unique: true,
     },
     duration: {
       type: String,

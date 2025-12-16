@@ -3,12 +3,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import MutliValueInputTag from "../components/MutliValueInputTag";
+import BackEndURI from "../utils/BackEndURI";
 
 const AddCourse = () => {
   const navigate = useNavigate();
   const [CourseImg, setCourseImg] = useState("");
   const ImageUrl = useRef(null);
-  const [CourseFile, setCourseFile] = useState({});
+  const [CourseFile, setCourseFile] = useState(null);
   useEffect(() => {
     const getAdmin = localStorage.getItem("adminInfo");
     console.log(CourseFile);
@@ -31,10 +32,32 @@ const AddCourse = () => {
     cBenefits: [],
   });
 
+  const uploadImageToDB = async () => {
+    try {
+      if (!CourseFile || CourseFile.length === 0) {
+        return toast.error("Please select an image first");
+      }
+
+      const formData = new FormData();
+      formData.append("courseImage", CourseFile);
+      // field name backend ke multer se match hona chahiye
+
+      const res = await fetch(`${BackEndURI}/api/upload`, {
+        method: "POST",
+        body: formData, // ❌ headers bilkul mat do
+      });
+
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const hanldeImageFile = (e) => {
     const image = e.target.files[0];
-    setCourseFile(e.target.files);
     if (!image) return;
+    setCourseFile(image);
 
     const reader = new FileReader();
 
@@ -52,6 +75,7 @@ const AddCourse = () => {
     console.log(formData);
     // alert("Registration Successful! Aapka form WhatsApp pe chala gaya hai!");
     // setFormData({
+    // imageURL
     //   cTitle: "",
     //   cCode: "",
     //   cDuration: "",
@@ -78,13 +102,19 @@ const AddCourse = () => {
           {/* Row File upload  */}
           <div
             onClick={() => ImageUrl.current.click()}
-            className="w-full cursor-pointer py-4 border-dashed border-black bg-green-50 col-span-2 rounded-[30px] h-[300px] flex justify-center items-center"
+            className="w-full relative cursor-pointer py-4 border-dashed border-black bg-green-50 col-span-2 rounded-[30px] h-[300px] flex justify-center items-center"
           >
             {CourseImg ? (
               <img className="h-full bg-cover my-2" src={CourseImg} alt="" />
             ) : (
               <BiImageAdd size={150} color="#EAB308" />
             )}
+            <div
+              onClick={() => uploadImageToDB()}
+              className=" rounded-full  text-white active:scale-110 duration-200 transition-all absolute bottom-5 py-2 px-4 bg-[#eab308] right-5"
+            >
+              Upload Image
+            </div>
           </div>
           <input
             type="file"
