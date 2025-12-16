@@ -30,8 +30,14 @@ function App() {
     }
   }, [Location]);
   useEffect(() => {
-    GetAllCoursesFromBE();
+    FetchCourseData();
   }, []);
+
+  const FetchCourseData = async () => {
+    const data = await GetAllCoursesFromBE();
+    if (!data) return;
+    setAllCourses(data);
+  };
 
   return (
     <>

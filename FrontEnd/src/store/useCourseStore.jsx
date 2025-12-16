@@ -13,8 +13,8 @@ export async function GetAllCoursesFromBE() {
     const Res = await fetch(`${BackEndURI}/api/course/get-all`);
     const data = await Res.json();
     if (!data) return;
-    useCourseStore.getState().setAllCourses(data.data);
-    // return data.data;
+    // useCourseStore.getState().setAllCourses(data.data);
+    return data.data;
   } catch (error) {
     console.log(error);
     return;

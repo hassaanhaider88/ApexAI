@@ -5,13 +5,15 @@ export default function Navbar() {
   const Location = useLocation();
   const [mobileMenu, setMobileMenu] = useState(false);
   const [IsShowTopBanner, setIsShowTopBanner] = useState(true);
+  const [IsAdminLogin, setIsAdminLogin] = useState(false);
+  const [IsUserLogin, setIsUserLogin] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     if (
       Location.pathname == "/admin" ||
       Location.pathname == "/add-course" ||
-      Location.pathname == "view-register-user"
+      Location.pathname == "/students"
     ) {
       setIsShowTopBanner(false);
     } else {
@@ -19,6 +21,24 @@ export default function Navbar() {
     }
   }, [Location]);
 
+  useEffect(() => {
+    const getAdmin = localStorage.getItem("adminInfo");
+    if (getAdmin) {
+      setIsAdminLogin(true);
+      setIsUserLogin(false);
+    } else {
+      const user = localStorage.getItem("userinfo");
+      if (user) {
+        setIsAdminLogin(false);
+        setIsUserLogin(true);
+      } else {
+        setIsAdminLogin(false);
+        setIsUserLogin(false);
+      }
+    }
+  }, [Location]);
+
+  console.log(IsAdminLogin, IsUserLogin);
   const isActive = (path) => {
     if (path.startsWith("#")) {
       return location.hash === path;
@@ -40,7 +60,11 @@ export default function Navbar() {
   return (
     <>
       {/* Top Banner */}
-      <div className={` ${IsShowTopBanner ? "block" : "hidden"} bg-[#1E0040] text-white py-3 font-semibold overflow-hidden select-none`}>
+      <div
+        className={` ${
+          IsShowTopBanner ? "block" : "hidden"
+        } bg-[#1E0040] text-white py-3 font-semibold overflow-hidden select-none`}
+      >
         <div className="inline-flex whitespace-nowrap">
           <div
             className="flex items-center animate-marquee-infinite"
@@ -132,7 +156,18 @@ export default function Navbar() {
                 <div className="flex items-center gap-10 text-gray-700 font-semibold">
                   {[
                     { name: "HOME", path: "/" },
-                    { name: "REGISTRATIONS", path: "/registration" },
+                    {
+                      name: IsAdminLogin
+                        ? "Admin"
+                        : IsUserLogin
+                        ? "Me"
+                        : "REGISTRATIONS",
+                      path: IsAdminLogin
+                        ? "/admin"
+                        : IsUserLogin
+                        ? `/students/${localStorage.getItem("userinfo")}`
+                        : "/registration",
+                    },
                     { name: "ABOUT US", path: "/about" },
                     { name: "BLOG", path: "/blog" },
                     { name: "TESTIMONIAL", path: "/testimonial-section" },

@@ -3,7 +3,6 @@ import Course from "../Modals/Course.js";
 import CheckPassword from "../Utils/CheckPassword.js";
 import HashPassword from "../Utils/HashPassword.js";
 
-
 export async function RegisterUser(req, res) {
   try {
     const {
@@ -21,7 +20,6 @@ export async function RegisterUser(req, res) {
     } = req.body;
 
     const selectedCourse = await Course.findOne({ title: course });
-    console.log(selectedCourse);
 
     if (!selectedCourse) {
       return res.json({
@@ -31,7 +29,6 @@ export async function RegisterUser(req, res) {
     }
 
     const CheckUser = await User.findOne({ email }).populate("course");
-    console.log(CheckUser);
     // if user exist already then we choose either the course he want to enroll is already appear in his timeline (pehle se es courese me enroll to nahi hai na ye check kr rahi)
     if (CheckUser) {
       const alreadyEnrolled = CheckUser.course.some(
@@ -56,7 +53,8 @@ export async function RegisterUser(req, res) {
       });
     } else {
       const HashPass = await HashPassword(password);
-      const User = await User.create({
+      console.log(HashPass);
+      const registerUser = await User.create({
         email,
         password: HashPass,
         firstName,
@@ -72,7 +70,7 @@ export async function RegisterUser(req, res) {
       res.json({
         sucess: true,
         message: "User Registered Sucessfully",
-        data: User,
+        data: registerUser,
       });
     }
   } catch (error) {
@@ -139,7 +137,7 @@ export async function LoginUser(req, res) {
   }
 }
 
-// this only update the admin with either user is Approved course or not 
+// this only update the admin with either user is Approved course or not
 export async function UpdateUser(req, res) {
   try {
     const { userId, IsCourseRegistrationApproved } = req.body;

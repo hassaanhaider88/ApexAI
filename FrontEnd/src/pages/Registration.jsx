@@ -1,6 +1,14 @@
 import { useState } from "react";
+import useCourseStore from "../store/useCourseStore";
+import { toast } from "react-toastify";
+import BackEndURI from "../utils/BackEndURI";
+import { useNavigate } from "react-router-dom";
 
 export default function Registration() {
+  const navigate = useNavigate();
+  const { AllCourses } = useCourseStore();
+  console.log(AllCourses);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -15,42 +23,68 @@ export default function Registration() {
     comments: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData);
+    try {
+      const Res = await fetch(`${BackEndURI}/api/user/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+        }),
+      });
+      const Data = await Res.json();
+      console.log(Data);
+      if (Data.sucess) {
+        toast.success("Registration Sucessfully");
+        localStorage.setItem("userinfo", Data.data._id);
+        navigate("/");
+        return;
+      } else {
+        toast.error(Data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+      return;
+    }
 
     // Auto WhatsApp Message
-    const message =
-      `*NEW REGISTRATION*%0A%0A` +
-      `*Name:* ${formData.firstName} ${formData.lastName}%0A` +
-      `*Email:* ${formData.email}%0A` +
-      `*Phone:* ${formData.phone}%0A` +
-      `*Gender:* ${formData.gender}%0A` +
-      `*Course:* ${formData.course}%0A` +
-      `*Address:* ${formData.address}, ${formData.city}, ${formData.province}%0A` +
-      `*Comments:* ${formData.comments || "N/A"}%0A%0A` +
-      `Submitted on: ${new Date().toLocaleString()}`;
+    // const message =
+    //   `*NEW REGISTRATION*%0A%0A` +
+    //   `*Name:* ${formData.firstName} ${formData.lastName}%0A` +
+    //   `*Email:* ${formData.email}%0A` +
+    //   `*Phone:* ${formData.phone}%0A` +
+    //   `*Gender:* ${formData.gender}%0A` +
+    //   `*Course:* ${formData.course}%0A` +
+    //   `*Address:* ${formData.address}, ${formData.city}, ${formData.province}%0A` +
+    //   `*Comments:* ${formData.comments || "N/A"}%0A%0A` +
+    //   `Submitted on: ${new Date().toLocaleString()}`;
 
-    const whatsappURL = `https://wa.me/923000123456?text=${message}`;
-    window.open(whatsappURL, "_blank");
+    // const whatsappURL = `https://wa.me/923000123456?text=${message}`;
+    // window.open(whatsappURL, "_blank");
 
     // Save to localStorage
     // const leads = JSON.parse(localStorage.getItem("leads") || "[]");
     // leads.push({ ...formData, date: new Date().toLocaleString() });
     // localStorage.setItem("leads", JSON.stringify(leads));
 
-    // alert("Registration Successful! Aapka form WhatsApp pe chala gaya hai!");
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      gender: "",
-      course: "",
-      address: "",
-      city: "",
-      province: "",
-      comments: "",
-    });
+    // // alert("Registration Successful! Aapka form WhatsApp pe chala gaya hai!");
+    // setFormData({
+    //   firstName: "",
+    //   lastName: "",
+    //   email: "",
+    //   phone: "",
+    //   gender: "",
+    //   course: "",
+    //   address: "",
+    //   city: "",
+    //   province: "",
+    //   comments: "",
+    // });
   };
 
   return (
@@ -154,11 +188,9 @@ export default function Registration() {
             className="border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2"
           >
             <option value="">Please Select Course</option>
-            <option>Web Development</option>
-            <option>Graphic Design</option>
-            <option>Digital Marketing</option>
-            <option>Flutter Development</option>
-            <option>Freelancing Mastery</option>
+            {AllCourses.map((course, idx) => {
+              return <option key={idx}>{course.title}</option>;
+            })}
           </select>
 
           {/* Row 4 */}

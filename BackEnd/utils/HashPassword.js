@@ -1,11 +1,13 @@
 import bcrypt from "bcrypt";
+
 async function HashPassword(password) {
   try {
     const salt = await bcrypt.genSalt(10);
-    const hashPass = await bcrypt.hash(myPlaintextPassword, salt);
+    const hashPass = await bcrypt.hash(password, salt);
     return hashPass;
   } catch (error) {
-    return false;
+    console.error(error);
+    return null;
   }
 }
 

@@ -29,9 +29,9 @@ export default function Admin() {
     }
   }, [CheckAdminRegister]);
 
-  useEffect(() => {
-    GetAllCoursesFromBE();
-  }, [AllCourses]);
+  // useEffect(() => {
+  //   GetAllCoursesFromBE();
+  // }, []);
 
   const handleCourseUpdate = async (courseId) => {
     const IsReallyUpdate = confirm("Are you sure to update Course");
@@ -56,7 +56,7 @@ export default function Admin() {
         const data = await res.json();
         if (data.sucess) {
           toast.success("Course Deleted Sucessfully");
-          GetAllCoursesFromBE();
+          setAllCourses(GetAllCoursesFromBE());
           return;
         } else {
           toast.error("Something Went Wrong");
