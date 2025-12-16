@@ -1,3 +1,4 @@
+import { GoVerified } from "react-icons/go";
 import { BiImageAdd } from "react-icons/bi";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +11,10 @@ const AddCourse = () => {
   const [CourseImg, setCourseImg] = useState("");
   const ImageUrl = useRef(null);
   const [CourseFile, setCourseFile] = useState(null);
+  const [LoadingImageUpload, setLoadingImageUpload] = useState(false);
+  const [IsUploadImgSucess, setIsUploadImgSucess] = useState(false);
   useEffect(() => {
     const getAdmin = localStorage.getItem("adminInfo");
-    console.log(CourseFile);
     if (!getAdmin) {
       navigate("/");
     }
@@ -34,6 +36,8 @@ const AddCourse = () => {
 
   const uploadImageToDB = async () => {
     try {
+      setLoadingImageUpload(true);
+
       if (!CourseFile || CourseFile.length === 0) {
         return toast.error("Please select an image first");
       }
@@ -48,7 +52,16 @@ const AddCourse = () => {
       });
 
       const data = await res.json();
-      console.log(data);
+      if (data.sucess) {
+        setCourseImg(data.url);
+        setIsUploadImgSucess(true);
+        toast.success(data.message);
+        setLoadingImageUpload(false);
+      } else {
+        toast.error("Something Went Wrong");
+        setLoadingImageUpload(false);
+        return;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -65,14 +78,32 @@ const AddCourse = () => {
 
     reader.onload = () => {
       setCourseImg(reader.result);
-      console.log(reader.result);
     };
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!CourseImg) return toast.error("please select image");
     console.log(formData);
+    const Res = await fetch(`${BackEndURI}/api/course/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...formData,
+        image: CourseImg,
+      }),
+    });
+    const Data = await Res.json();
+    console.log(Data);
+    if (Data.sucess) {
+      toast.success("Course Added Sucessfully");
+      return;
+    } else {
+      toast.error("Something Went Wrong");
+      return;
+    }
     // alert("Registration Successful! Aapka form WhatsApp pe chala gaya hai!");
     // setFormData({
     // imageURL
@@ -109,12 +140,25 @@ const AddCourse = () => {
             ) : (
               <BiImageAdd size={150} color="#EAB308" />
             )}
-            <div
-              onClick={() => uploadImageToDB()}
-              className=" rounded-full  text-white active:scale-110 duration-200 transition-all absolute bottom-5 py-2 px-4 bg-[#eab308] right-5"
-            >
-              Upload Image
-            </div>
+            {LoadingImageUpload ? (
+              <div className=" z-50 rounded-full  text-white active:scale-110 duration-200 transition-all absolute bottom-5 py-2 px-4 bg-[#eab308] right-5">
+                Uploading...
+              </div>
+            ) : IsUploadImgSucess ? (
+              <div className=" z-50 rounded-full  text-[#eab308] absolute bottom-5 flex gap-1 justify-center items-center py-2 px-4 bg-gray-100 right-5">
+                <GoVerified size={18} color="#eab308" /> Upload Sucessfully
+              </div>
+            ) : (
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  uploadImageToDB();
+                }}
+                className=" z-50 rounded-full  text-white active:scale-110 duration-200 transition-all absolute bottom-5 py-2 px-4 bg-[#eab308] right-5"
+              >
+                Upload Image
+              </div>
+            )}
           </div>
           <input
             type="file"

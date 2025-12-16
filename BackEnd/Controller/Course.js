@@ -1,3 +1,5 @@
+import Course from "../Modals/Course.js";
+
 export function getAllCourseFromDB(req, res) {
   try {
   } catch (error) {
@@ -38,10 +40,10 @@ export function DeleteCourse(req, res) {
   }
 }
 
-export function CreateCourse(req, res) {
+export async function CreateCourse(req, res) {
   try {
     const {
-      imageURL,
+      image,
       cTitle,
       cCode,
       cDuration,
@@ -54,6 +56,25 @@ export function CreateCourse(req, res) {
       cModules,
       cBenefits,
     } = req.body;
+    const createdCourse = await Course.create({
+      image: image,
+      title: cTitle,
+      code: cCode,
+      duration: cDuration,
+      fee: cFee,
+      timing: cTiming,
+      instructor: cInstructor,
+      students: cRegisteredUser,
+      rating: cRatings,
+      overview: cOverView,
+      modules: cModules,
+      benefits: cBenefits,
+    });
+    res.json({
+      sucess: true,
+      message: "Course Created Sucessfully",
+      data: createdCourse,
+    });
   } catch (error) {
     res.json({
       sucess: false,
