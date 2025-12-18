@@ -1,5 +1,5 @@
 import express from "express";
-import { AllRegisteredUser, DeleteUser, GetProfile, LoginUser, RegisterUser, UpdateUser } from "../Controller/RegisterUser.js";
+import { AllRegisteredUser, DeleteUser, GetProfile, LoginUser, RegisterUser, UpdateUser, updateUserModuleStatus } from "../Controller/RegisterUser.js";
 
 
 const router = express.Router();
@@ -16,5 +16,6 @@ router.put('/update-profile',UpdateUser);
 
 router.delete('/delete-profile',DeleteUser);
 
+router.post('/update-module',updateUserModuleStatus)
 
 export default router;

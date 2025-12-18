@@ -1,3 +1,5 @@
+import { BsFillPatchCheckFill } from "react-icons/bs";
+import { BiBadgeCheck } from "react-icons/bi";
 import { BsFillStarFill } from "react-icons/bs";
 import { BsStars } from "react-icons/bs";
 import { BsBookmarkStarFill } from "react-icons/bs";
@@ -51,7 +53,6 @@ const SingleStudent = () => {
       console.log(Data);
       if (Data.sucess) {
         setUserData(Data.data);
-        toast.success("Data fetched successfully");
       } else {
         toast.error(Data.message);
       }
@@ -64,6 +65,7 @@ const SingleStudent = () => {
   useEffect(() => {
     getSingleUser();
   }, []);
+
   const hanldeUserApprovnessChange = (user) => {
     if (confirm("Are You Sure To Change User's Approvness")) {
       try {
@@ -87,6 +89,35 @@ const SingleStudent = () => {
         toast.error(error.message);
         return;
       }
+    }
+  };
+
+  const updateModuleStatus = async (userId, courseId, ModuleId, completed) => {
+    try {
+      console.log(userId, courseId, ModuleId, completed);
+      const res = await fetch(`${BackEndURI}/api/user/update-module`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          courseId,
+          ModuleId,
+          completed,
+        }),
+      });
+
+      const data = await res.json();
+      console.log(data);
+      if (data.success) {
+        getSingleUser();
+      } else {
+        toast.error(data.message);
+        return;
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
@@ -154,22 +185,68 @@ const SingleStudent = () => {
               : "Registeration Pending"}
           </span>
           {/* action buttons  */}
+        </div>
+        <div className="AdminOptions w-full  mt-10">
           {IsAdminLogin ? (
-            <div className="flex gap-4">
-              <ToogleSwitch
-                IsCourseRegistrationApproved={
-                  UserData?.isCourseRegistrationApproved
-                }
-                hanldeChange={hanldeUserApprovnessChange}
-                user={UserData}
-              />
-              <button
-                onClick={() => hanldeUserDeletion(UserData._id)}
-                title="Delete User"
-                className=""
-              >
-                <FiDelete size={29} color="red" />
-              </button>
+            <div className="flex my-5 flex-col gap-4">
+              <h1 className="text-2xl font-semibold">Admin Actions</h1>
+              <div className="w-full flex-col flex sm:flex-row justify-start sm:gap-20 gap-5 items-center">
+                <h1 className="w-[250px]">ApproveUser Registrations</h1>
+                <ToogleSwitch
+                  IsCourseRegistrationApproved={
+                    UserData?.isCourseRegistrationApproved
+                  }
+                  hanldeChange={hanldeUserApprovnessChange}
+                  user={UserData}
+                />
+              </div>
+              <div className="w-full flex-col flex sm:flex-row justify-start sm:gap-20 gap-5 items-center">
+                <h1 className="w-[250px]">Delete User</h1>
+                <button
+                  onClick={() => hanldeUserDeletion(UserData._id)}
+                  title="Delete User"
+                  className=""
+                >
+                  <FiDelete size={29} color="red" />
+                </button>
+              </div>
+              <h1 className="text-lg font-semibold">
+                {" "}
+                Student Modules Progress
+              </h1>
+              <div className="w-full flex justify-evenly items-center gap-3">
+                <div className="w-1/5">
+                  {UserData?.course[0].courseId.modules.map((module, i) => {
+                    return (
+                      <li
+                        style={{ textDecoration: "none" }}
+                        className="text-nowrap"
+                      >
+                        {module}
+                      </li>
+                    );
+                  })}
+                </div>
+                <div className="w-1/5">
+                  {UserData?.course[0].moduleStatus.map((module, idx) => {
+                    return (
+                      <li
+                        onClick={() =>
+                          updateModuleStatus(
+                            UserData?._id,
+                            UserData?.course[0].courseId._id,
+                            module?._id,
+                            !module?.completed
+                          )
+                        }
+                        className="decoration-slice text-nowrap"
+                      >
+                        {module.completed ? "Completed" : "Pending"}
+                      </li>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           ) : (
             ""
@@ -178,13 +255,13 @@ const SingleStudent = () => {
       </div>
 
       {/* Course Section */}
-      <div className="bg-white py-5 text-black">
+      <div className="bg-white rounded-2xl shadow-2xl py-5 text-black">
         {UserData?.course?.map((item, idx) => {
           const course = item.courseId; // 👈 IMPORTANT
           const moduleStatus = item.moduleStatus;
 
           return (
-            <div key={idx} className="space-y-6 space-x-4">
+            <div key={idx} className="space-y-6 rounded-2xl space-x-4">
               <div className="grid md:grid-cols-2 gap-6">
                 <img
                   src={course?.image}
@@ -230,12 +307,17 @@ const SingleStudent = () => {
 
                     return (
                       <li
+                        title={completed ? "Completed" : "Pending"}
                         key={i}
                         className={`flex items-center gap-2 p-2 rounded-lg ${
-                          completed ? "bg-green-100" : "bg-gray-100"
+                          completed ? "bg-yellow-100" : "bg-gray-100"
                         }`}
                       >
-                        {completed ? "✅" : "⏳"}
+                        {completed ? (
+                          <BsFillPatchCheckFill size={19} color="#ECBA1E" />
+                        ) : (
+                          <BiBadgeCheck size={19} color="#ECBA1E" />
+                        )}
                         <span className="font-medium">{moduleName}</span>
                       </li>
                     );
@@ -245,10 +327,15 @@ const SingleStudent = () => {
 
               {/* BENEFITS */}
               <div>
-                <h4 className="font-semibold text-[#F8CB15] mb-2">Benefits</h4>
-                <div className="flex flex-wrap gap-2">
+                <h4 className="font-semibold text-[#F8CB15] text-2xl mb-2">
+                  Benefits
+                </h4>
+                <div className="flex w-full justify-start flex-wrap gap-2">
                   {course?.benefits.map((b, i) => (
-                    <span key={i} className="px-3 py-1 rounded-full text-xs">
+                    <span
+                      key={i}
+                      className="px-3 py-1 bg-black text-white rounded-full text-xs"
+                    >
                       {b}
                     </span>
                   ))}

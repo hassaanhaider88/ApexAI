@@ -56,11 +56,11 @@ export async function RegisterUser(req, res) {
       completed: false,
     }));
 
-    const CheckUser = await User.findOne({ email }).populate("course.courseId")
+    const CheckUser = await User.findOne({ email }).populate("course.courseId");
     // if user exist already then we choose either the course he want to enroll is already appear in his timeline (pehle se es courese me enroll to nahi hai na ye check kr rahi)
     if (CheckUser) {
       const alreadyEnrolled = CheckUser.course.some(
-        (c) => c.courseId.toString() === selectedCourse._id.toString()
+        (c) => c.courseId._id.toString() === selectedCourse._id.toString()
       );
 
       if (alreadyEnrolled) {
@@ -91,10 +91,12 @@ export async function RegisterUser(req, res) {
         lastName,
         phone,
         gender,
-        course: {
-          courseId: selectedCourse._id,
-          moduleStatus,
-        },
+        course: [
+          {
+            courseId: selectedCourse._id,
+            moduleStatus,
+          },
+        ],
         address,
         city,
         province,
@@ -198,6 +200,58 @@ export async function UpdateUser(req, res) {
     });
   }
 }
+
+export const updateUserModuleStatus = async (req, res) => {
+  try {
+    const { userId, ModuleId, completed } = req.body;
+
+    if (!userId || !ModuleId) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields",
+      });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const CourseModule = user.course
+      .map((c) =>
+        c.moduleStatus.find((m) => m._id.toString() === ModuleId.toString())
+      )
+      .find(Boolean);
+
+    if (!CourseModule) {
+      return res.status(404).json({
+        success: false,
+        message: "Module not found",
+      });
+    }
+
+    // ✅ UPDATE
+    CourseModule.completed = completed;
+
+    // ✅ SAVE
+    await user.save();
+
+    return res.json({
+      success: true,
+      message: "Module status updated successfully",
+      data: user,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 
 export async function DeleteUser(req, res) {
   try {
