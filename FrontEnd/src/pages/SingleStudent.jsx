@@ -1,11 +1,14 @@
+import { BiCheckboxSquare } from "react-icons/bi";
+import { BiCheckbox } from "react-icons/bi";
+import { BsHeartArrow } from "react-icons/bs";
+
 import { BsFillPatchCheckFill } from "react-icons/bs";
 import { BiBadgeCheck } from "react-icons/bi";
 import { BsFillStarFill } from "react-icons/bs";
-import { BsStars } from "react-icons/bs";
-import { BsBookmarkStarFill } from "react-icons/bs";
+
 import { FiDelete } from "react-icons/fi";
-import React from "react";
-import { data, useParams } from "react-router-dom";
+
+import { useParams, useNavigate, data } from "react-router-dom";
 import ToogleSwitch from "../components/ToogleSwitch";
 import { toast } from "react-toastify";
 import BackEndURI from "../utils/BackEndURI";
@@ -14,6 +17,7 @@ import { useEffect } from "react";
 
 const SingleStudent = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [UserData, setUserData] = useState(null);
   const [IsAdminLogin, setIsAdminLogin] = useState(false);
   const [IsUserLogin, setIsUserLogin] = useState(false);
@@ -38,6 +42,7 @@ const SingleStudent = () => {
   useEffect(() => {
     console.log(UserData);
   }, [UserData]);
+
   const getSingleUser = async () => {
     try {
       const Res = await fetch(`${BackEndURI}/api/user/get-profile`, {
@@ -66,24 +71,52 @@ const SingleStudent = () => {
     getSingleUser();
   }, []);
 
-  const hanldeUserApprovnessChange = (user) => {
-    if (confirm("Are You Sure To Change User's Approvness")) {
-      try {
-        console.log(user);
-        toast.success("please wait");
-      } catch (error) {
-        console.log(error);
-        toast.error(error.message);
-        return;
+  const hanldeUserApprovnessChange = async (user) => {
+    try {
+      if (confirm("Are You Sure To Change User's Approvness")) {
+        const Res = await fetch(`${BackEndURI}/api/user/update-profile`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: id,
+            IsCourseRegistrationApproved: !user.isCourseRegistrationApproved,
+          }),
+        });
+        const Data = await Res.json();
+        if (Data.sucess) {
+          toast.success(Data.message);
+          getSingleUser();
+        } else {
+          toast.error(Data.message);
+        }
       }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
     }
   };
 
   const hanldeUserDeletion = async (userId) => {
     if (confirm("Are You Sure To Delete User")) {
       try {
-        console.log("please wait");
-        toast.success("please wait");
+        const res = await fetch(`${BackEndURI}/api/user/delete-profile`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: id,
+          }),
+        });
+        const data = await res.json();
+        if (data.sucess) {
+          navigate("/admin");
+        } else {
+          toast.error(data.message);
+          return;
+        }
       } catch (error) {
         console.log(error);
         toast.error(error.message);
@@ -218,31 +251,50 @@ const SingleStudent = () => {
                 <div className="w-1/5">
                   {UserData?.course[0].courseId.modules.map((module, i) => {
                     return (
-                      <li
-                        style={{ textDecoration: "none" }}
-                        className="text-nowrap"
+                      <span
+                        className=" items-center gap-2 flex text-md font-semibold text-nowrap"
+                        key={i}
                       >
-                        {module}
-                      </li>
+                        <BsHeartArrow size={18} color="#EAB308" /> {module}
+                      </span>
                     );
                   })}
                 </div>
-                <div className="w-1/5">
+                <div className="w-1/5 flex flex-col items-center gap-1">
                   {UserData?.course[0].moduleStatus.map((module, idx) => {
                     return (
-                      <li
-                        onClick={() =>
-                          updateModuleStatus(
-                            UserData?._id,
-                            UserData?.course[0].courseId._id,
-                            module?._id,
-                            !module?.completed
-                          )
-                        }
-                        className="decoration-slice text-nowrap"
+                      <span
+                        onClick={() => {
+                          const IsConfirm = confirm(
+                            "Are You Sure To Change Status"
+                          );
+                          if (IsConfirm) {
+                            updateModuleStatus(
+                              UserData?._id,
+                              UserData?.course[0].courseId._id,
+                              module?._id,
+                              !module?.completed
+                            );
+                          } else {
+                            return;
+                          }
+                        }}
+                        className="flex items-center gap-5 text-md font-semibold cursor-pointer nowrap"
                       >
-                        {module.completed ? "Completed" : "Pending"}
-                      </li>
+                        {module.completed ? (
+                          <BiCheckboxSquare
+                            title="Completed Module"
+                            size={20}
+                            color="#EAB308"
+                          />
+                        ) : (
+                          <BiCheckbox
+                            title="Pending Module"
+                            size={20}
+                            color="#EAB308"
+                          />
+                        )}
+                      </span>
                     );
                   })}
                 </div>
@@ -261,7 +313,7 @@ const SingleStudent = () => {
           const moduleStatus = item.moduleStatus;
 
           return (
-            <div key={idx} className="space-y-6 rounded-2xl space-x-4">
+            <div key={idx} className="space-y-6 mt-10 rounded-2xl space-x-4">
               <div className="grid md:grid-cols-2 gap-6">
                 <img
                   src={course?.image}
@@ -344,6 +396,7 @@ const SingleStudent = () => {
             </div>
           );
         })}
+        {}
       </div>
     </div>
   );

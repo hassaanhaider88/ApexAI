@@ -173,15 +173,15 @@ export async function LoginUser(req, res) {
 }
 
 // this only update the admin with either user is Approved course or not
-export async function UpdateUser(req, res) {
+export async function UpdateUserApproveness(req, res) {
   try {
     const { userId, IsCourseRegistrationApproved } = req.body;
-    const User = await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       userId,
       { isCourseRegistrationApproved: IsCourseRegistrationApproved },
       { new: true }
     );
-    if (!User) {
+    if (!user) {
       return res.json({
         sucess: false,
         message: "User Not Found",
@@ -252,12 +252,11 @@ export const updateUserModuleStatus = async (req, res) => {
   }
 };
 
-
 export async function DeleteUser(req, res) {
   try {
     const { userId } = req.body;
-    const User = await User.findByIdAndDelete(userId);
-    if (!User) {
+    const user = await User.findByIdAndDelete(userId);
+    if (!user) {
       return res.json({
         sucess: false,
         message: "User Not Found",
