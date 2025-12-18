@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import useCourseStore from "../store/useCourseStore";
 
 export default function Navbar() {
   const Location = useLocation();
@@ -8,6 +9,7 @@ export default function Navbar() {
   const [IsAdminLogin, setIsAdminLogin] = useState(false);
   const [IsUserLogin, setIsUserLogin] = useState(false);
   const location = useLocation();
+  const { AllCourses } = useCourseStore();
 
   useEffect(() => {
     if (
@@ -22,6 +24,7 @@ export default function Navbar() {
   }, [Location]);
 
   useEffect(() => {
+    console.log(AllCourses);
     const getAdmin = localStorage.getItem("adminInfo");
     if (getAdmin) {
       setIsAdminLogin(true);
@@ -208,21 +211,13 @@ export default function Navbar() {
                     )}
                     <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 opacity-0 invisible scale-95 group-hover:opacity-100 group-hover:visible group-hover:scale-100 transition-all duration-500 z-50">
                       <div className="p-6 space-y-3">
-                        {[
-                          "Web Development",
-                          "Graphic Design",
-                          "Digital Marketing",
-                          "Flutter Development",
-                          "Freelancing Mastery",
-                        ].map((c) => (
+                        {AllCourses?.map((c) => (
                           <Link
                             key={c}
-                            to={`/courses/${c
-                              .toLowerCase()
-                              .replace(/ /g, "-")}`}
+                            to={`/courses/${c._id}`}
                             className="block p-4 rounded-xl hover:bg-purple-50 font-semibold"
                           >
-                            {c}
+                            {c.title}
                           </Link>
                         ))}
                       </div>
@@ -232,7 +227,7 @@ export default function Navbar() {
 
                 <Link
                   to="/registration"
-                  className="bg-[#FFB400] text-white px-10 py-5 rounded-full font-extrabold shadow-xl hover:bg-[#291260] transform hover:scale-110 transition-all flex items-center gap-3"
+                  className="bg-[#FFB400] text-white px-10 py-5 rounded-full font-extrabold shadow-xl hover:bg-[#291260] scale-75 transform hover:scale-90 transition-all flex items-center gap-3"
                 >
                   <i className="fas fa-phone-volume"></i>
                   ENROLL NOW
@@ -281,17 +276,44 @@ export default function Navbar() {
               >
                 COURSES
               </Link>
-              <Link
-                to="/registration"
-                onClick={() => setMobileMenu(false)}
-                className={`block py-3 ${
-                  isActive("/registration")
-                    ? "text-yellow-400"
-                    : "hover:text-yellow-300"
-                }`}
-              >
-                REGISTRATIONS
-              </Link>
+              {IsAdminLogin ? (
+                <Link
+                  to="/admin"
+                  onClick={() => setMobileMenu(false)}
+                  className={`block py-3 ${
+                    isActive("/registration")
+                      ? "text-yellow-400"
+                      : "hover:text-yellow-300"
+                  }`}
+                >
+                  Admin
+                </Link>
+              ) : IsUserLogin ? (
+                <Link
+                  to={`/students/${localStorage.getItem("userinfo")}`}
+                  onClick={() => setMobileMenu(false)}
+                  className={`block py-3 ${
+                    isActive("/registration")
+                      ? "text-yellow-400"
+                      : "hover:text-yellow-300"
+                  }`}
+                >
+                  Me
+                </Link>
+              ) : (
+                <Link
+                  to="/registration"
+                  onClick={() => setMobileMenu(false)}
+                  className={`block py-3 ${
+                    isActive("/registration")
+                      ? "text-yellow-400"
+                      : "hover:text-yellow-300"
+                  }`}
+                >
+                  REGISTRATIONS
+                </Link>
+              )}
+
               <Link
                 to="/about-section"
                 onClick={(e) => {
@@ -322,7 +344,7 @@ export default function Navbar() {
             <div className="absolute bottom-10 left-6 right-6">
               <Link
                 to="/registration"
-                className="block text-center bg-yellow-500 text-purple-900 py-5 rounded-full font-extrabold text-xl shadow-xl hover:bg-yellow-400 transform hover:scale-105 transition"
+                className="block text-center bg-yellow-500 text-purple-900 py-4 px-2 rounded-full font-extrabold text-lg shadow-xl hover:bg-yellow-400 transform hover:scale-95 transition"
               >
                 ENROLL NOW
               </Link>

@@ -1,173 +1,187 @@
-import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useLocation, useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useCourseStore from "../store/useCourseStore";
 
 export default function CourseDetail() {
-  const { courseName } = useParams(); // URL se course name milega
+  const { courseId } = useParams(); // URL se course name milega
+  const Location = useLocation();
   const [activeTab, setActiveTab] = useState("overview");
+  const { AllCourses } = useCourseStore();
+  const [SingleCourse, setSingleCourse] = useState(null);
+
+  useEffect(() => {
+    const course = AllCourses.find((c) => c._id === courseId);
+    setSingleCourse(course);
+    console.log(course);
+  }, [Location, AllCourses]);
 
   // Course data – baad mein backend se bhi la sakte ho
-  const courses = {
-    "web-development": {
-      title: "Web Development (MERN Stack)",
-      duration: "6 Months",
-      fee: "PKR 35,000",
-      timing: "Evening 6:00 PM - 8:00 PM",
-      instructor: "Sir Bilal Ahmed",
-      students: "1500+",
-      rating: "4.9",
-      color: "from-purple-600 to-pink-600",
-      icon: "fa-laptop-code",
-      overview:
-        "Complete MERN Stack (MongoDB, Express, React, Node.js) seekho. Live projects + 100% Job Guarantee.",
-      modules: [
-        "HTML/CSS",
-        "JavaScript",
-        "React.js",
-        "Node.js",
-        "MongoDB",
-        "Portfolio Website",
-        "E-commerce Project",
-      ],
-      benefits: [
-        "100% Job Placement",
-        "Live Projects",
-        "Certificate",
-        "Freelancing Training",
-        "Lifetime Support",
-      ],
-    },
-    "graphic-design": {
-      title: "Graphic Design Professional",
-      duration: "4 Months",
-      fee: "PKR 28,000",
-      timing: "Morning 10:00 AM - 12:00 PM",
-      instructor: "Sir Hamza Ali",
-      students: "1200+",
-      rating: "4.8",
-      color: "from-orange-500 to-yellow-500",
-      icon: "fa-palette",
-      overview:
-        "Photoshop, Illustrator, Canva, Logo Design, Social Media Posts – sab kuch professional level pe.",
-      modules: [
-        "Photoshop",
-        "Illustrator",
-        "Canva Pro",
-        "Logo Design",
-        "Banner & Poster",
-        "Social Media Kit",
-      ],
-      benefits: [
-        "Portfolio Building",
-        "Fiverr/Upwork Ready",
-        "Certificate",
-        "Job Support",
-      ],
-    },
-    "digital-marketing": {
-      title: "Digital Marketing Mastery",
-      duration: "3 Months",
-      fee: "PKR 25,000",
-      timing: "Weekend Batch",
-      instructor: "Sir Usman Khan",
-      students: "1800+",
-      rating: "4.9",
-      color: "from-blue-600 to-cyan-500",
-      icon: "fa-bullhorn",
-      overview:
-        "Facebook Ads, Instagram Marketing, SEO, Google Ads – business ya freelancing dono ke liye perfect.",
-      modules: [
-        "Facebook Ads",
-        "Instagram Growth",
-        "SEO",
-        "Google Ads",
-        "Email Marketing",
-        "Analytics",
-      ],
-      benefits: [
-        "Live Campaigns",
-        "Certificate",
-        "Freelancing Profile",
-        "Agency Ready",
-      ],
-    },
-    "flutter-development": {
-      title: "Flutter App Development",
-      duration: "5 Months",
-      fee: "PKR 40,000",
-      timing: "Evening 7:00 PM - 9:00 PM",
-      instructor: "Sir Ahmed Raza",
-      students: "900+",
-      rating: "5.0",
-      color: "from-green-500 to-teal-600",
-      icon: "fa-mobile-alt",
-      overview:
-        "Android + iOS dono ke liye ek hi code se app banao. Play Store pe live apps!",
-      modules: [
-        "Dart Language",
-        "Flutter Widgets",
-        "Firebase",
-        "State Management",
-        "API Integration",
-        "Live App on Play Store",
-      ],
-      benefits: [
-        "2 Live Apps",
-        "Play Store Publishing",
-        "Job Ready",
-        "Certificate",
-      ],
-    },
-    "freelancing-mastery": {
-      title: "Freelancing Mastery (Upwork + Fiverr)",
-      duration: "2 Months",
-      fee: "PKR 18,000",
-      timing: "Weekend Only",
-      instructor: "Sir Ali Raza",
-      students: "2500+",
-      rating: "4.9",
-      color: "from-yellow-500 to-orange-600",
-      icon: "fa-dollar-sign",
-      overview:
-        "Profile banane se first order tak – sab kuch step by step. 30 din mein earning shuru!",
-      modules: [
-        "Profile Optimization",
-        "Gig Creation",
-        "Client Communication",
-        "Winning Proposals",
-        "Payment Methods",
-      ],
-      benefits: [
-        "First Order Guarantee",
-        "Lifetime Support",
-        "Winning Templates",
-        "Certificate",
-      ],
-    },
-  };
-
-  const course = courses[courseName] || courses["web-development"]; // fallback
+  // const courses = {
+  //   "web-development": {
+  //     title: "Web Development (MERN Stack)",
+  //     duration: "6 Months",
+  //     fee: "PKR 35,000",
+  //     timing: "Evening 6:00 PM - 8:00 PM",
+  //     instructor: "Sir Bilal Ahmed",
+  //     students: "1500+",
+  //     rating: "4.9",
+  //     color: "from-purple-600 to-pink-600",
+  //     icon: "fa-laptop-code",
+  //     overview:
+  //       "Complete MERN Stack (MongoDB, Express, React, Node.js) seekho. Live projects + 100% Job Guarantee.",
+  //     modules: [
+  //       "HTML/CSS",
+  //       "JavaScript",
+  //       "React.js",
+  //       "Node.js",
+  //       "MongoDB",
+  //       "Portfolio Website",
+  //       "E-commerce Project",
+  //     ],
+  //     benefits: [
+  //       "100% Job Placement",
+  //       "Live Projects",
+  //       "Certificate",
+  //       "Freelancing Training",
+  //       "Lifetime Support",
+  //     ],
+  //   },
+  //   "graphic-design": {
+  //     title: "Graphic Design Professional",
+  //     duration: "4 Months",
+  //     fee: "PKR 28,000",
+  //     timing: "Morning 10:00 AM - 12:00 PM",
+  //     instructor: "Sir Hamza Ali",
+  //     students: "1200+",
+  //     rating: "4.8",
+  //     color: "from-orange-500 to-yellow-500",
+  //     icon: "fa-palette",
+  //     overview:
+  //       "Photoshop, Illustrator, Canva, Logo Design, Social Media Posts – sab kuch professional level pe.",
+  //     modules: [
+  //       "Photoshop",
+  //       "Illustrator",
+  //       "Canva Pro",
+  //       "Logo Design",
+  //       "Banner & Poster",
+  //       "Social Media Kit",
+  //     ],
+  //     benefits: [
+  //       "Portfolio Building",
+  //       "Fiverr/Upwork Ready",
+  //       "Certificate",
+  //       "Job Support",
+  //     ],
+  //   },
+  //   "digital-marketing": {
+  //     title: "Digital Marketing Mastery",
+  //     duration: "3 Months",
+  //     fee: "PKR 25,000",
+  //     timing: "Weekend Batch",
+  //     instructor: "Sir Usman Khan",
+  //     students: "1800+",
+  //     rating: "4.9",
+  //     color: "from-blue-600 to-cyan-500",
+  //     icon: "fa-bullhorn",
+  //     overview:
+  //       "Facebook Ads, Instagram Marketing, SEO, Google Ads – business ya freelancing dono ke liye perfect.",
+  //     modules: [
+  //       "Facebook Ads",
+  //       "Instagram Growth",
+  //       "SEO",
+  //       "Google Ads",
+  //       "Email Marketing",
+  //       "Analytics",
+  //     ],
+  //     benefits: [
+  //       "Live Campaigns",
+  //       "Certificate",
+  //       "Freelancing Profile",
+  //       "Agency Ready",
+  //     ],
+  //   },
+  //   "flutter-development": {
+  //     title: "Flutter App Development",
+  //     duration: "5 Months",
+  //     fee: "PKR 40,000",
+  //     timing: "Evening 7:00 PM - 9:00 PM",
+  //     instructor: "Sir Ahmed Raza",
+  //     students: "900+",
+  //     rating: "5.0",
+  //     color: "from-green-500 to-teal-600",
+  //     icon: "fa-mobile-alt",
+  //     overview:
+  //       "Android + iOS dono ke liye ek hi code se app banao. Play Store pe live apps!",
+  //     modules: [
+  //       "Dart Language",
+  //       "Flutter Widgets",
+  //       "Firebase",
+  //       "State Management",
+  //       "API Integration",
+  //       "Live App on Play Store",
+  //     ],
+  //     benefits: [
+  //       "2 Live Apps",
+  //       "Play Store Publishing",
+  //       "Job Ready",
+  //       "Certificate",
+  //     ],
+  //   },
+  //   "freelancing-mastery": {
+  //     title: "Freelancing Mastery (Upwork + Fiverr)",
+  //     duration: "2 Months",
+  //     fee: "PKR 18,000",
+  //     timing: "Weekend Only",
+  //     instructor: "Sir Ali Raza",
+  //     students: "2500+",
+  //     rating: "4.9",
+  //     color: "from-yellow-500 to-orange-600",
+  //     icon: "fa-dollar-sign",
+  //     overview:
+  //       "Profile banane se first order tak – sab kuch step by step. 30 din mein earning shuru!",
+  //     modules: [
+  //       "Profile Optimization",
+  //       "Gig Creation",
+  //       "Client Communication",
+  //       "Winning Proposals",
+  //       "Payment Methods",
+  //     ],
+  //     benefits: [
+  //       "First Order Guarantee",
+  //       "Lifetime Support",
+  //       "Winning Templates",
+  //       "Certificate",
+  //     ],
+  //   },
+  // };
 
   return (
     <>
       {/* Hero Section */}
-      <section className={`bg-gradient-to-br ${course.color} text-white py-20`}>
+      <section
+        style={{
+          background:
+            "linear-gradient(90deg,rgba(255, 255, 255, 1) 3%, rgba(252, 129, 0, 1) 41%, rgba(125, 211, 252, 1) 69%, rgba(255, 180, 0, 1) 95%)",
+        }}
+        className={`bg-gradient-to-br  text-black py-20`}
+      >
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h1 className="text-5xl md:text-6xl font-extrabold mb-6">
-              {course.title}
+              {SingleCourse?.title}
             </h1>
             <div className="flex flex-wrap gap-6 text-lg">
               <span>
                 <i className="fas fa-clock mr-2"></i>
-                {course.duration}
+                {SingleCourse?.duration}
               </span>
               <span>
                 <i className="fas fa-calendar mr-2"></i>
-                {course.timing}
+                {SingleCourse?.timing}
               </span>
               <span>
                 <i className="fas fa-user-tie mr-2"></i>
-                {course.instructor}
+                {SingleCourse?.instructor}
               </span>
             </div>
             <div className="mt-8 flex gap-6">
@@ -187,9 +201,14 @@ export default function CourseDetail() {
           </div>
           <div className="text-center">
             <div
-              className={`inline-block p-10 rounded-full bg-white/20 backdrop-blur`}
+              style={{ borderRadius: "30% 70% 70% 30% / 30% 30% 70% 70%" }}
+              className={`w-full h-full overflow-hidden`}
             >
-              <i className={`fas ${course.icon} text-9xl`}></i>
+              <img
+                src={SingleCourse?.image}
+                alt={SingleCourse?.title}
+                className="w-full opacity-90 h-full bg-cover bg-clip-content overflow-hidden"
+              />
             </div>
           </div>
         </div>
@@ -221,17 +240,17 @@ export default function CourseDetail() {
           <div className="bg-white rounded-3xl shadow-2xl p-10">
             {activeTab === "overview" && (
               <div className="space-y-6 text-lg text-gray-700">
-                <p>{course.overview}</p>
+                <p>{SingleCourse?.overview}</p>
                 <div className="grid md:grid-cols-3 gap-8 mt-10">
                   <div className="text-center bg-purple-50 p-8 rounded-2xl">
                     <h3 className="text-5xl font-bold text-purple-800">
-                      {course.students}
+                      {SingleCourse?.students}+
                     </h3>
                     <p className="text-xl mt-2">Students Trained</p>
                   </div>
                   <div className="text-center bg-yellow-50 p-8 rounded-2xl">
                     <h3 className="text-5xl font-bold text-yellow-600">
-                      {course.rating}/5.0
+                      {SingleCourse?.rating}/5.0
                     </h3>
                     <p className="text-xl mt-2">Student Rating</p>
                   </div>
@@ -245,7 +264,7 @@ export default function CourseDetail() {
 
             {activeTab === "modules" && (
               <div className="grid md:grid-cols-2 gap-6">
-                {course.modules.map((module, i) => (
+                {SingleCourse?.modules.map((module, i) => (
                   <div
                     key={i}
                     className="flex items-center gap-4 bg-gray-50 p-6 rounded-xl"
@@ -259,7 +278,7 @@ export default function CourseDetail() {
 
             {activeTab === "benefits" && (
               <div className="grid md:grid-cols-2 gap-6">
-                {course.benefits.map((benefit, i) => (
+                {SingleCourse?.benefits.map((benefit, i) => (
                   <div
                     key={i}
                     className="flex items-center gap-4 bg-purple-50 p-6 rounded-xl"
@@ -282,12 +301,12 @@ export default function CourseDetail() {
           </h2>
           <p className="text-2xl mb-10">Seats are limited – Enroll today!</p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <a
-              href="/registration"
+            <Link
+              to="/registration"
               className="bg-yellow-400 text-purple-900 px-12 py-6 rounded-full text-3xl font-extrabold hover:bg-yellow-300 shadow-2xl"
             >
               Register Now
-            </a>
+            </Link>
             <a
               href="tel:03000123456"
               className="bg-transparent border-4 border-white px-12 py-6 rounded-full text-3xl font-bold hover:bg-white hover:text-purple-900"

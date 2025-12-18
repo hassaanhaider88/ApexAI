@@ -52,7 +52,7 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/registration" element={<Registration />} />
-          <Route path="/courses/:courseName" element={<CourseDetail />} />
+          <Route path="/courses/:courseId" element={<CourseDetail />} />
           <Route path="/update-course" element={<UpdateCourse />} />
           <Route path="/add-course" element={<AddCourse />} />
 
