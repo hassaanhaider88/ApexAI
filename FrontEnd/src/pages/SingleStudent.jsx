@@ -1,3 +1,6 @@
+import { BsFillStarFill } from "react-icons/bs";
+import { BsStars } from "react-icons/bs";
+import { BsBookmarkStarFill } from "react-icons/bs";
 import { FiDelete } from "react-icons/fi";
 import React from "react";
 import { data, useParams } from "react-router-dom";
@@ -10,9 +13,29 @@ import { useEffect } from "react";
 const SingleStudent = () => {
   const { id } = useParams();
   const [UserData, setUserData] = useState(null);
- useEffect(() => {
-   console.log(UserData)
- }, [UserData]);
+  const [IsAdminLogin, setIsAdminLogin] = useState(false);
+  const [IsUserLogin, setIsUserLogin] = useState(false);
+
+  useEffect(() => {
+    const getAdmin = localStorage.getItem("adminInfo");
+    if (getAdmin) {
+      setIsAdminLogin(true);
+      setIsUserLogin(false);
+    } else {
+      const user = localStorage.getItem("userinfo");
+      if (user) {
+        setIsAdminLogin(false);
+        setIsUserLogin(true);
+      } else {
+        setIsAdminLogin(false);
+        setIsUserLogin(false);
+      }
+    }
+  }, [Location]);
+
+  useEffect(() => {
+    console.log(UserData);
+  }, [UserData]);
   const getSingleUser = async () => {
     try {
       const Res = await fetch(`${BackEndURI}/api/user/get-profile`, {
@@ -28,7 +51,7 @@ const SingleStudent = () => {
       console.log(Data);
       if (Data.sucess) {
         setUserData(Data.data);
-        toast.success('Data fetched successfully')
+        toast.success("Data fetched successfully");
       } else {
         toast.error(Data.message);
       }
@@ -67,52 +90,10 @@ const SingleStudent = () => {
     }
   };
 
-  // Dummy Data (later replace with API response)
-  const student = {
-    _id: "kuchbhi12340001",
-    firstName: "Hassaan",
-    lastName: "Haider",
-    email: "hassaanhaider088@gmail.com",
-    phone: "+82 343 7117831",
-    gender: "Male",
-    address: "Mohalla Tariq abad",
-    city: "Lalian",
-    province: "Punjab",
-    isCourseRegistrationApproved: true,
-    commits: "Kuch bhi ya kuch nahi",
-    course: {
-      code: "hmk01",
-      title: "Web Development (MERN Stack)",
-      image:
-        "https://i.pinimg.com/videos/thumbnails/originals/a4/f2/b4/a4f2b4425a88bc8a25b279447d95d488.0000000.jpg",
-      duration: "6 Months",
-      fee: "PKR 35,000",
-      timing: "Evening 6:00 PM - 8:00 PM",
-      instructor: "Sir Bilal Ahmed",
-      rating: "4.9",
-      overview:
-        "Complete MERN Stack seekho. Live projects + Job focused training.",
-      modules: [
-        "HTML/CSS",
-        "JavaScript",
-        "React.js",
-        "Node.js",
-        "MongoDB",
-        "Portfolio Website",
-      ],
-      benefits: [
-        "100% Job Placement",
-        "Live Projects",
-        "Certificate",
-        "Freelancing Training",
-      ],
-    },
-  };
-
   return (
     <div className="min-h-screen bg-black text-white px-6 py-10">
       {/* Page Title */}
-      <h1 className="text-3xl font-bold mb-8 text-[#F8CB15]">
+      <h1 className="text-4xl font-bold mt-5 mb-8 text-[#F8CB15]">
         Student Details
       </h1>
 
@@ -127,12 +108,18 @@ const SingleStudent = () => {
             <span className="font-semibold">Name:</span> {UserData?.firstName}
             {UserData?.lastName}
           </p>
-          <p>
-            <span className="font-semibold">Email:</span> {UserData?.email}
-          </p>
-          <p>
-            <span className="font-semibold">Phone:</span> {UserData?.phone}
-          </p>
+          {IsAdminLogin || IsUserLogin ? (
+            <>
+              <p>
+                <span className="font-semibold">Email:</span> {UserData?.email}
+              </p>
+              <p>
+                <span className="font-semibold">Phone:</span> {UserData?.phone}
+              </p>{" "}
+            </>
+          ) : (
+            ""
+          )}
           <p>
             <span className="font-semibold">Gender:</span> {UserData?.gender}
           </p>
@@ -142,6 +129,10 @@ const SingleStudent = () => {
           <p>
             <span className="font-semibold">Province:</span>{" "}
             {UserData?.province}
+          </p>
+          <p>
+            <span className="font-semibold pr-3">Registered At:</span>{" "}
+            {UserData?.createdAt.split("T")[0]}
           </p>
         </div>
 
@@ -160,37 +151,40 @@ const SingleStudent = () => {
           >
             {UserData?.isCourseRegistrationApproved
               ? "Registration Approved"
-              : "Pending Approval"}
+              : "Registeration Pending"}
           </span>
           {/* action buttons  */}
-          <div className="flex gap-4">
-            <ToogleSwitch
-              IsCourseRegistrationApproved={
-                UserData?.isCourseRegistrationApproved
-              }
-              hanldeChange={hanldeUserApprovnessChange}
-              user={UserData}
-            />
-            <button
-              onClick={() => hanldeUserDeletion(UserData._id)}
-              title="Delete User"
-              className=""
-            >
-              <FiDelete size={29} color="red" />
-            </button>
-          </div>
+          {IsAdminLogin ? (
+            <div className="flex gap-4">
+              <ToogleSwitch
+                IsCourseRegistrationApproved={
+                  UserData?.isCourseRegistrationApproved
+                }
+                hanldeChange={hanldeUserApprovnessChange}
+                user={UserData}
+              />
+              <button
+                onClick={() => hanldeUserDeletion(UserData._id)}
+                title="Delete User"
+                className=""
+              >
+                <FiDelete size={29} color="red" />
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
 
       {/* Course Section */}
-      <div className="bg-white text-black rounded-xl p-6 shadow-lg">
-        <h2 className="text-xl font-semibold mb-6 text-[#F8CB15]">
-          Registered Course
-        </h2>
+      <div className="bg-white py-5 text-black">
+        {UserData?.course?.map((item, idx) => {
+          const course = item.courseId; // 👈 IMPORTANT
+          const moduleStatus = item.moduleStatus;
 
-        {UserData?.course?.map((course, idx) => {
           return (
-            <>
+            <div key={idx} className="space-y-6 space-x-4">
               <div className="grid md:grid-cols-2 gap-6">
                 <img
                   src={course?.image}
@@ -200,60 +194,67 @@ const SingleStudent = () => {
 
                 <div>
                   <h3 className="text-2xl font-bold mb-2">{course?.title}</h3>
-
                   <p className="text-sm mb-4">{course?.overview}</p>
 
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <p>
-                      <span className="font-semibold">Duration:</span>{" "}
-                      {course?.duration}
+                      <b>Duration:</b> {course?.duration}
                     </p>
                     <p>
-                      <span className="font-semibold">Fee:</span> {course?.fee}
+                      <b>Fee:</b> {course?.fee}
                     </p>
                     <p>
-                      <span className="font-semibold">Timing:</span>{" "}
-                      {course?.timing}
+                      <b>Timing:</b> {course?.timing}
                     </p>
                     <p>
-                      <span className="font-semibold">Instructor:</span>{" "}
-                      {course?.instructor}
+                      <b>Instructor:</b> {course?.instructor}
                     </p>
-                    <p>
-                      <span className="font-semibold">Rating:</span> ⭐{" "}
+                    <p className="flex gap-2 items-center">
+                      <b>Rating:</b>
+                      <BsFillStarFill size={16} color="#EAB308" />
                       {course?.rating}
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Modules */}
-              <div className="mt-6">
+              {/* MODULES WITH STATUS */}
+              <div>
                 <h4 className="font-semibold text-[#F8CB15] mb-2">
                   Course Modules
                 </h4>
-                <ul className="list-disc list-inside text-sm grid md:grid-cols-2 gap-x-6">
-                  {course?.modules.map((m, i) => (
-                    <li key={i}>{m}</li>
-                  ))}
+
+                <ul className="grid md:grid-cols-2 gap-3">
+                  {course?.modules.map((moduleName, i) => {
+                    const completed = moduleStatus[i]?.completed;
+
+                    return (
+                      <li
+                        key={i}
+                        className={`flex items-center gap-2 p-2 rounded-lg ${
+                          completed ? "bg-green-100" : "bg-gray-100"
+                        }`}
+                      >
+                        {completed ? "✅" : "⏳"}
+                        <span className="font-medium">{moduleName}</span>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
 
-              {/* Benefits */}
-              <div className="mt-6">
+              {/* BENEFITS */}
+              <div>
                 <h4 className="font-semibold text-[#F8CB15] mb-2">Benefits</h4>
                 <div className="flex flex-wrap gap-2">
                   {course?.benefits.map((b, i) => (
-                    <span
-                      key={i}
-                      className="px-3 py-1 bg-black text-white rounded-full text-xs"
-                    >
+                    <span key={i} className="px-3 py-1 rounded-full text-xs">
                       {b}
                     </span>
                   ))}
                 </div>
               </div>
-            </>
+            </div>
           );
         })}
       </div>

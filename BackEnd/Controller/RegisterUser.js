@@ -51,11 +51,16 @@ export async function RegisterUser(req, res) {
       });
     }
 
-    const CheckUser = await User.findOne({ email }).populate("course");
+    const moduleStatus = selectedCourse.modules.map((_, index) => ({
+      moduleIndex: index,
+      completed: false,
+    }));
+
+    const CheckUser = await User.findOne({ email }).populate("course.courseId")
     // if user exist already then we choose either the course he want to enroll is already appear in his timeline (pehle se es courese me enroll to nahi hai na ye check kr rahi)
     if (CheckUser) {
       const alreadyEnrolled = CheckUser.course.some(
-        (c) => c._id.toString() === selectedCourse._id.toString()
+        (c) => c.courseId.toString() === selectedCourse._id.toString()
       );
 
       if (alreadyEnrolled) {
@@ -66,7 +71,10 @@ export async function RegisterUser(req, res) {
       }
 
       // ADD NEW COURSE
-      CheckUser.course.push(selectedCourse._id);
+      CheckUser.course.push({
+        courseId: selectedCourse._id,
+        moduleStatus,
+      });
       await CheckUser.save();
 
       return res.json({
@@ -76,7 +84,6 @@ export async function RegisterUser(req, res) {
       });
     } else {
       const HashPass = await HashPassword(password);
-      console.log(HashPass);
       const registerUser = await User.create({
         email,
         password: HashPass,
@@ -84,7 +91,10 @@ export async function RegisterUser(req, res) {
         lastName,
         phone,
         gender,
-        course: [selectedCourse._id],
+        course: {
+          courseId: selectedCourse._id,
+          moduleStatus,
+        },
         address,
         city,
         province,
@@ -107,7 +117,7 @@ export async function RegisterUser(req, res) {
 export async function GetProfile(req, res) {
   try {
     const { userId } = req.body;
-    const getUser = await User.findById(userId).populate("course");
+    const getUser = await User.findById(userId).populate("course.courseId");
     if (!getUser) {
       return res.json({
         sucess: false,

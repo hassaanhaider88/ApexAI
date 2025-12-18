@@ -24,7 +24,6 @@ export default function Navbar() {
   }, [Location]);
 
   useEffect(() => {
-    console.log(AllCourses);
     const getAdmin = localStorage.getItem("adminInfo");
     if (getAdmin) {
       setIsAdminLogin(true);

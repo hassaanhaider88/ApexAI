@@ -28,9 +28,21 @@ const userSchema = new Schema(
     },
     course: [
       {
-        type: Schema.Types.ObjectId,
-        ref: "Course",
-        required: true,
+        courseId: {
+          type: Schema.Types.ObjectId,
+          ref: "Course",
+          required: true,
+        },
+
+        moduleStatus: [
+          {
+            moduleIndex: Number, // 0,1,2...
+            completed: {
+              type: Boolean,
+              default: false,
+            },
+          },
+        ],
       },
     ],
 
