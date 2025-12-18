@@ -1,9 +1,10 @@
 import express from "express";
-import { DeleteUser, GetProfile, LoginUser, RegisterUser, UpdateUser } from "../Controller/RegisterUser.js";
+import { AllRegisteredUser, DeleteUser, GetProfile, LoginUser, RegisterUser, UpdateUser } from "../Controller/RegisterUser.js";
 
 
 const router = express.Router();
 
+router.get('/all-users',AllRegisteredUser)
 
 router.post('/register',RegisterUser)
 

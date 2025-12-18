@@ -1,3 +1,4 @@
+import { BiSearch } from "react-icons/bi";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { FaRegEdit } from "react-icons/fa";
 import { FiDelete } from "react-icons/fi";
@@ -17,9 +18,11 @@ export default function Admin() {
   const navigate = useNavigate();
   const [leads] = useState(JSON.parse(localStorage.getItem("leads") || "[]"));
   const [CheckAdminRegister, setCheckAdminRegister] = useState(false);
+  const [SearchName, setSearchName] = useState("");
   const [AdminEmail, setAdminEmail] = useState("");
   const [AdminPass, setAdminPass] = useState("");
-
+  const [AllUsers, setAllUsers] = useState([]);
+  const [FilteredUsers, setFilteredUsers] = useState([]);
   useEffect(() => {
     const GetAdminInfoFromLS = localStorage.getItem("adminInfo");
     if (GetAdminInfoFromLS) {
@@ -29,9 +32,37 @@ export default function Admin() {
     }
   }, [CheckAdminRegister]);
 
-  // useEffect(() => {
-  //   GetAllCoursesFromBE();
-  // }, []);
+  useEffect(() => {
+    FetchUsersData();
+  }, []);
+
+  const FetchUsersData = async () => {
+    try {
+      const Res = await fetch(`${BackEndURI}/api/user/all-users`);
+      const data = await Res.json();
+      if (data.sucess) {
+        setAllUsers(data.data); // full list
+        setFilteredUsers(data.data); // initially all users shown
+        toast.success(data.message);
+      } else {
+        setAllUsers([]); // full list
+        setFilteredUsers([]); // initially all users shown
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  const hanldeUserSearchByName = (e) => {
+    setSearchName(e.target.value);
+    const SearchResult = AllUsers.filter((user) =>
+      user?.firstName.toLowerCase().startsWith(e.target.value)
+    );
+    console.log(SearchResult);
+    setFilteredUsers(SearchResult);
+  };
 
   const handleCourseUpdate = async (courseId) => {
     const IsReallyUpdate = confirm("Are you sure to update Course");
@@ -158,46 +189,25 @@ export default function Admin() {
             </Link>
           </div>
           {/* all  Registered User goes here */}
-          <div className="text-2xl mb-5">All Register Users</div>
-          <AllRegisterUsers data={RegisterUsers} />
-        </div>
-        {/* {leads.length === 0 ? (
-          <p className="text-center text-3xl">No registrations yet...</p>
-        ) : (
-          <div className="grid gap-6">
-            {leads.reverse().map((lead, i) => (
-              <div
-                key={i}
-                className="bg-white/10 backdrop-blur rounded-2xl p-8 shadow-2xl"
-              >
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="text-2xl font-bold">{lead.name}</h3>
-                    <p className="text-xl text-green-400">{lead.phone}</p>
-                    <p className="text-lg">
-                      Course: <strong>{lead.course}</strong>
-                    </p>
-                    {lead.message && (
-                      <p className="mt-2 italic">"{lead.message}"</p>
-                    )}
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm opacity-80">{lead.date}</p>
-                    <a
-                      href={`https://wa.me/${lead.phone.replace(
-                        /[^0-9]/g,
-                        ""
-                      )}`}
-                      className="mt-4 inline-block bg-green-500 px-6 py-3 rounded-full hover:bg-green-600"
-                    >
-                      WhatsApp
-                    </a>
-                  </div>
-                </div>
+          <div className="w-full sm:flex-row flex-col my-5 gap-5 flex justify-between items-center">
+            <h1 className="text-3xl font-semibold">All Register Users</h1>
+            {/* filtering ny name */}
+            <div className="py-2 px-3 rounded-lg bg-white">
+              <div className="IconAndInput flex  justify-center items-center gap-2">
+                <BiSearch size={18} color="gray" />
+                <input
+                  type="text"
+                  value={SearchName}
+                  onChange={(e) => hanldeUserSearchByName(e)}
+                  placeholder="Search by First Name"
+                  className="outline-none rounded-xl pl-1 focus:outline-[#F8CB15]  duration-200 transition-all text-black"
+                />
               </div>
-            ))}
+            </div>
           </div>
-        )} */}
+
+          <AllRegisterUsers data={FilteredUsers} />
+        </div>
       </div>
     </div>
   ) : (

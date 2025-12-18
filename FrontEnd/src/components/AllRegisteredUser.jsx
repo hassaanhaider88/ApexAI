@@ -30,51 +30,57 @@ const AllRegisterUsers = ({ data }) => {
               </tr>
             </thead>
 
-            <tbody>
-              {data.map((user, index) => (
-                <tr
-                  key={index}
-                  className="text-sm text-gray-700 hover:bg-gray-50"
-                >
-                  <td className="px-4 py-2 border">
-                    {user.firstName} {user.lastName}
-                  </td>
-                  <td className="px-4 py-2 border">{user.email}</td>
-                  <td className="px-4 py-2 border">{user.phone}</td>
-                  <td className="px-4 py-2 border">{user.gender}</td>
-                  <td className="px-4 py-2 border gap-2 flex flex-col">
-                    {user.course?.map((course, idx) => {
-                      return (
-                        <h2 key={idx} className="text-nowrap">
-                          {course.code}
-                        </h2>
-                      );
-                    })}
-                  </td>
-                  <td
-                    title="Is Course Registration Approved"
-                    className="px-4 py-2 border"
+            <tbody className="text-center">
+              {data.length > 0 ? (
+                data.map((user, index) => (
+                  <tr
+                    key={index}
+                    className="text-sm text-gray-700 hover:bg-gray-50"
                   >
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        user.isCourseRegistrationApproved
-                          ? "bg-green-400 text-green-800"
-                          : "bg-red-400 text-red-800"
-                      }`}
+                    <td className="px-4 py-2 border">
+                      {user.firstName} {user.lastName}
+                    </td>
+                    <td className="px-4 py-2 border">{user.email}</td>
+                    <td className="px-4 py-2 border">{user.phone}</td>
+                    <td className="px-4 py-2 border">{user.gender}</td>
+                    <td className="px-4 py-2 border gap-2 flex flex-col">
+                      {user.course?.map((course, idx) => {
+                        return (
+                          <h2 key={idx} className="text-nowrap">
+                            {course.code}
+                          </h2>
+                        );
+                      })}
+                    </td>
+                    <td
+                      title="Is Course Registration Approved"
+                      className="px-4 py-2 border"
                     >
-                      {user.isCourseRegistrationApproved
-                        ? "Approved"
-                        : "Pending"}
-                    </span>
-                  </td>
-                  <td className="px-4 cursor-pointer py-2 border">
-                    <BiLinkExternal
-                      onClick={() => navigate(`/students/${user._id}`)}
-                      size={30}
-                    />
-                  </td>
-                </tr>
-              ))}
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          user.isCourseRegistrationApproved
+                            ? "bg-green-400 text-green-800"
+                            : "bg-red-400 text-red-800"
+                        }`}
+                      >
+                        {user.isCourseRegistrationApproved
+                          ? "Approved"
+                          : "Pending"}
+                      </span>
+                    </td>
+                    <td className="px-4 cursor-pointer py-2 border">
+                      <BiLinkExternal
+                        onClick={() => navigate(`/students/${user._id}`)}
+                        size={30}
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <div className="w-full text-center text-lg font-semibold text-black">
+                  Nothing Found
+                </div>
+              )}
             </tbody>
           </table>
         </div>

@@ -3,6 +3,29 @@ import Course from "../Modals/Course.js";
 import CheckPassword from "../Utils/CheckPassword.js";
 import HashPassword from "../Utils/HashPassword.js";
 
+export async function AllRegisteredUser(req, res) {
+  try {
+    const AllUser = await User.find();
+    if (AllUser) {
+      return res.json({
+        sucess: true,
+        message: "Sucessfully Fetch user",
+        data: AllUser,
+      });
+    } else {
+      return res.json({
+        sucess: false,
+        message: "Error in sending users",
+      });
+    }
+  } catch (error) {
+    res.json({
+      sucess: false,
+      message: "Error in sending users",
+    });
+  }
+}
+
 export async function RegisterUser(req, res) {
   try {
     const {
