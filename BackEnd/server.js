@@ -8,18 +8,18 @@ import RegisterAdminRouter from "./Routers/RegisterUser.js";
 import CourseRouter from "./Routers/Course.js";
 import hadleImgeUpload from "./Controller/uploadRoute.js";
 import upload from "./utils/Multer.js";
+import ContactUsRouter from "./Routers/ContactUs.js";
 
 const app = express();
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 
-
 connectDB();
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 // middlewares/requestLogger.js
 const requestLogger = (req, res, next) => {
   console.log(`[${req.method}] ${req.originalUrl}`);
@@ -46,5 +46,8 @@ app.use("/api/course", CourseRouter);
 
 // uploade image
 app.post("/api/upload", upload.single("courseImage"), hadleImgeUpload);
+
+// contact us
+app.use("/api/contact", ContactUsRouter);
 
 app.listen(PORT, () => console.log(`Server Running on ${PORT}`));

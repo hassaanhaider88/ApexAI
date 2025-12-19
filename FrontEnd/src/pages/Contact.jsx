@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import BackendURI from "../utils/BackEndURI";
 
 export default function ContactPage() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,14 +17,29 @@ export default function ContactPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const text = `Name: ${formData.name}%0AEmail: ${formData.email}%0APhone: ${formData.phone}%0ASubject: ${formData.subject}%0AMessage: ${formData.message}`;
-    window.open(`https://wa.me/92300123456?text=${text}`, "_blank");
-    alert(
-      "Your message has been sent via WhatsApp! We'll reply soon InshaAllah"
-    );
-    setFormData({ name: "", email: "", subject: "", phone: "", message: "" });
+    console.log(formData);
+    const res = await fetch(`${BackendURI}/api/contact`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: formData.email,
+        name: formData.name,
+        subject: formData.subject,
+        phone: formData.phone,
+        message: formData.message,
+      }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      toast.success("Message Sent Successfully");
+      navigate("/");
+    } else {
+      toast.error(data.message);
+    }
   };
 
   return (
