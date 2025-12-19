@@ -274,3 +274,44 @@ export async function DeleteUser(req, res) {
     });
   }
 }
+
+export async function UploadUserCertificate(req, res) {
+  try {
+    const { userId, uploadCertificate, courseId } = req.body;
+
+    const getUser = await User.findById(userId);
+    if (!getUser) {
+      return res.json({
+        success: false,
+        message: "User does not exist",
+      });
+    }
+
+    const course = getUser.course.find(
+      (c) => c.courseId.toString() === courseId.toString()
+    );
+
+    if (!course) {
+      return res.json({
+        success: false,
+        message: "Course not found for this user",
+      });
+    }
+
+    course.CourseCertificate = uploadCertificate;
+
+    await getUser.save();
+
+    res.json({
+      success: true,
+      message: "Certificate uploaded successfully",
+      data: getUser,
+    });
+  } catch (error) {
+    console.log("UploadUserCertificate ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}

@@ -1,3 +1,5 @@
+import { MdOutlineCloudUpload } from "react-icons/md";
+import { BsFillShieldLockFill } from "react-icons/bs";
 import { BiCheckboxSquare } from "react-icons/bi";
 import { BiCheckbox } from "react-icons/bi";
 import { BsHeartArrow } from "react-icons/bs";
@@ -12,8 +14,7 @@ import { useParams, useNavigate, data } from "react-router-dom";
 import ToogleSwitch from "../components/ToogleSwitch";
 import { toast } from "react-toastify";
 import BackEndURI from "../utils/BackEndURI";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const SingleStudent = () => {
   const { id } = useParams();
@@ -21,6 +22,12 @@ const SingleStudent = () => {
   const [UserData, setUserData] = useState(null);
   const [IsAdminLogin, setIsAdminLogin] = useState(false);
   const [IsUserLogin, setIsUserLogin] = useState(false);
+
+  const UploadCertificateRef = useRef(null);
+  const [UploadCertificateFile, setUploadCertificateFile] = useState("");
+  const [CertificateFile, setCertificateFile] = useState(null);
+  const [LoadingUploadCertificate, setLoadingUploadCertificate] =
+    useState(false);
 
   useEffect(() => {
     const getAdmin = localStorage.getItem("adminInfo");
@@ -39,10 +46,6 @@ const SingleStudent = () => {
     }
   }, [Location]);
 
-  useEffect(() => {
-    console.log(UserData);
-  }, [UserData]);
-
   const getSingleUser = async () => {
     try {
       const Res = await fetch(`${BackEndURI}/api/user/get-profile`, {
@@ -55,7 +58,6 @@ const SingleStudent = () => {
         }),
       });
       const Data = await Res.json();
-      console.log(Data);
       if (Data.sucess) {
         setUserData(Data.data);
       } else {
@@ -71,6 +73,7 @@ const SingleStudent = () => {
     getSingleUser();
   }, []);
 
+  // console.log(UserData);
   const hanldeUserApprovnessChange = async (user) => {
     try {
       if (confirm("Are You Sure To Change User's Approvness")) {
@@ -142,7 +145,6 @@ const SingleStudent = () => {
       });
 
       const data = await res.json();
-      console.log(data);
       if (data.success) {
         getSingleUser();
       } else {
@@ -154,6 +156,77 @@ const SingleStudent = () => {
     }
   };
 
+  const hanldeClickCirtificateUploader = (e) => {
+    const image = e.target.files[0];
+    if (!image) return;
+    setCertificateFile(image);
+    const reader = new FileReader();
+
+    reader.readAsDataURL(image);
+
+    reader.onload = () => {
+      setUploadCertificateFile(reader.result);
+    };
+  };
+
+  const handleCirtificateUploadToDb = async (userId, courseId) => {
+    try {
+      setLoadingUploadCertificate(true);
+      if (!CertificateFile) return toast.error("please select file first");
+      const formData = new FormData();
+      formData.append("courseImage", CertificateFile);
+
+      const res = await fetch(`${BackEndURI}/api/upload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      console.log(data);
+      if (data.sucess) {
+        //  here update user's certificate link
+        console.log(courseId, userId);
+        const Res = await fetch(`${BackEndURI}/api/user/upload-certificate`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: userId,
+            uploadCertificate: data?.url,
+            courseId: courseId,
+          }),
+        });
+        const Data2 = await Res.json();
+        console.log(Data2);
+        if (Data2.success) {
+          toast.success("Certificate Uploaded Successfully");
+          getSingleUser();
+          setLoadingUploadCertificate(false);
+        } else {
+          toast.error(Data2.message);
+          setLoadingUploadCertificate(false);
+        }
+      } else {
+        setLoadingUploadCertificate(false);
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  const handleCertificateDown = (url) => {
+    const a = document.createElement("a");
+    a.herf = url;
+    a.download = url;
+    a.click();
+  };
+
+  // const UserCourseModule = UserData?.course.map((u) =>
+  //   u.moduleStatus.map((m) => m)
+  // );
   return (
     <div className="min-h-screen bg-black text-white px-6 py-10">
       {/* Page Title */}
@@ -219,6 +292,7 @@ const SingleStudent = () => {
           </span>
           {/* action buttons  */}
         </div>
+
         <div className="AdminOptions w-full  mt-10">
           {IsAdminLogin ? (
             <div className="flex my-5 flex-col gap-4">
@@ -314,10 +388,14 @@ const SingleStudent = () => {
       </div>
 
       {/* Course Section */}
-      <div className="bg-white rounded-2xl shadow-2xl py-5 text-black">
+      <div className="bg-white rounded-2xl  shadow-2xl pt-5 pb-16 text-black">
         {UserData?.course?.map((item, idx) => {
           const course = item.courseId; // 👈 IMPORTANT
           const moduleStatus = item.moduleStatus;
+          const isAllModulesCompleted =
+            moduleStatus.length > 0 &&
+            moduleStatus.every((m) => m.completed === true);
+          console.log(isAllModulesCompleted);
 
           return (
             <div key={idx} className="space-y-6 mt-10 rounded-2xl space-x-4">
@@ -400,6 +478,97 @@ const SingleStudent = () => {
                   ))}
                 </div>
               </div>
+
+              {
+                <div className="w-full flex justify-center flex-col my-10 items-center min-h-[600px]">
+                  <h1 className="text-3xl mt-5 font-semibold">Certificate</h1>
+                  {console.log(item.CourseCertificate)}
+                  {item.CourseCertificate ? (
+                    <div className="relative flex justify-center items-center w-full h-full">
+                      <img
+                        className="bg-cover h-[80%] w-1/2 rounded-2xl"
+                        src={item.CourseCertificate}
+                        alt=""
+                      />
+                      {isAllModulesCompleted ? (
+                        ""
+                      ) : (
+                        <div
+                          title="No Unlock Yet"
+                          className="bg-[#333333da] flex-col rounded-2xl flex justify-center items-center absolute w-1/2 h-full"
+                        >
+                          <BsFillShieldLockFill color="#F27500" size={50} />
+                          <h1 className="text-2xl font-semibold text-white">
+                            No Courese Completed Yet
+                          </h1>
+                        </div>
+                      )}
+                    </div>
+                  ) : IsAdminLogin ? (
+                    <div className="relative flex justify-center items-center w-full h-full">
+                      {UploadCertificateFile ? (
+                        <img
+                          className="w-1/2 h-[80%] bg-cover"
+                          src={UploadCertificateFile}
+                          alt=""
+                        />
+                      ) : (
+                        <div
+                          onClick={() => UploadCertificateRef.current.click()}
+                          className="UploaderCertificate w-1/2 h-[200px] rounded-3xl flex justify-center items-center  cursor-pointer bg-[#333333be]"
+                        >
+                          <MdOutlineCloudUpload size={50} />
+                          <input
+                            onChange={(e) => hanldeClickCirtificateUploader(e)}
+                            type="file"
+                            ref={UploadCertificateRef}
+                            hidden
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {item.CourseCertificate == null && IsAdminLogin ? (
+                    <button
+                      onClick={() => {
+                        handleCirtificateUploadToDb(
+                          UserData._id,
+                          item.courseId._id
+                        );
+                      }}
+                      className={`${
+                        LoadingUploadCertificate
+                          ? "cursor-not-allowed"
+                          : "cursor-pointer"
+                      } py-2 px-4 text-white hover:scale-95 duration-200 transition-all bg-[#F27500] rounded-full mt-2`}
+                    >
+                      {LoadingUploadCertificate ? "Uploading..." : "Upload"}
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                  {item.CourseCertificate || IsAdminLogin || IsUserLogin ? (
+                    <button
+                      onClick={() => {
+                        isAllModulesCompleted
+                          ? handleCertificateDown(item.CourseCertificate)
+                          : toast.error("Course is not Complete yet");
+                      }}
+                      className={`${
+                        isAllModulesCompleted
+                          ? "cursor-pointer"
+                          : "cursor-not-allowed"
+                      } py-2 px-4 text-white hover:scale-95 duration-200 transition-all bg-[#F27500] rounded-full mt-2`}
+                    >
+                      {isAllModulesCompleted ? "Dowload" : "Not Completed Yet"}
+                    </button>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              }
             </div>
           );
         })}

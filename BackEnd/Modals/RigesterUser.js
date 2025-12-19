@@ -43,6 +43,10 @@ const userSchema = new Schema(
             },
           },
         ],
+        CourseCertificate: {
+          type: String,
+          default: null,
+        },
       },
     ],
 

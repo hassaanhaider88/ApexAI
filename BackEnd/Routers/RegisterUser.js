@@ -7,6 +7,7 @@ import {
   RegisterUser,
   UpdateUserApproveness,
   updateUserModuleStatus,
+  UploadUserCertificate,
 } from "../Controller/RegisterUser.js";
 
 const router = express.Router();
@@ -24,5 +25,7 @@ router.post("/update-profile", UpdateUserApproveness);
 router.post("/delete-profile", DeleteUser);
 
 router.post("/update-module", updateUserModuleStatus);
+
+router.post('/upload-certificate',UploadUserCertificate)
 
 export default router;
