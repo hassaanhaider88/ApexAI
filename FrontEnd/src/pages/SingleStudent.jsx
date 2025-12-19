@@ -3,6 +3,7 @@ import { BsFillShieldLockFill } from "react-icons/bs";
 import { BiCheckboxSquare } from "react-icons/bi";
 import { BiCheckbox } from "react-icons/bi";
 import { BsHeartArrow } from "react-icons/bs";
+import { saveAs } from "file-saver";
 
 import { BsFillPatchCheckFill } from "react-icons/bs";
 import { BiBadgeCheck } from "react-icons/bi";
@@ -218,10 +219,7 @@ const SingleStudent = () => {
   };
 
   const handleCertificateDown = (url) => {
-    const a = document.createElement("a");
-    a.herf = url;
-    a.download = url;
-    a.click();
+    saveAs(url, "certificate.jpg");
   };
 
   // const UserCourseModule = UserData?.course.map((u) =>
@@ -395,8 +393,6 @@ const SingleStudent = () => {
           const isAllModulesCompleted =
             moduleStatus.length > 0 &&
             moduleStatus.every((m) => m.completed === true);
-          console.log(isAllModulesCompleted);
-
           return (
             <div key={idx} className="space-y-6 mt-10 rounded-2xl space-x-4">
               <div className="grid md:grid-cols-2 gap-6">
@@ -482,7 +478,6 @@ const SingleStudent = () => {
               {
                 <div className="w-full flex justify-center flex-col my-10 items-center min-h-[600px]">
                   <h1 className="text-3xl mt-5 font-semibold">Certificate</h1>
-                  {console.log(item.CourseCertificate)}
                   {item.CourseCertificate ? (
                     <div className="relative flex justify-center items-center w-full h-full">
                       <img

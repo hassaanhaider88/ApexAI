@@ -12,8 +12,8 @@
 //   );
 // }
 
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, Link } from "react-router-dom";
 
 export default function Footer() {
   const [IsAdminPage, setIsAdminPage] = useState(false);
@@ -58,19 +58,19 @@ export default function Footer() {
           </h3>
           <ul className="space-y-3 text-gray-300">
             <li>
-              <a href="/blog" className="hover:text-yellow-400 transition">
+              <Link to="/blog" className="hover:text-yellow-400 transition">
                 Blog
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/courses" className="hover:text-yellow-400 transition">
+              <Link to="/courses" className="hover:text-yellow-400 transition">
                 Courses
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/about" className="hover:text-yellow-400 transition">
+              <Link to="/about" className="hover:text-yellow-400 transition">
                 About Us
-              </a>
+              </Link>
             </li>
             <li>
               <a
@@ -90,33 +90,33 @@ export default function Footer() {
           </h3>
           <ul className="space-y-3 text-gray-300">
             <li>
-              <a href="/contact" className="hover:text-yellow-400 transition">
+              <Link to="/contact" className="hover:text-yellow-400 transition">
                 Contact Us
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/registration"
+              <Link
+                to="/registration"
                 className="hover:text-yellow-400 transition"
               >
                 Registrations
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/registration"
+              <Link
+                to="/registration"
                 className="hover:text-yellow-400 transition"
               >
                 Become A Student
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/become-instructor"
+              <Link
+                to="/become-instructor"
                 className="hover:text-yellow-400 transition"
               >
                 Become An Instructor
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -187,13 +187,13 @@ export default function Footer() {
           <div className="text-gray-400 text-center md:text-right">
             <p>© 2025 APEX Ai IT Institute. All Rights Reserved.</p>
             <div className="flex gap-4 justify-center md:justify-end mt-2">
-              <a href="#" className="hover:text-yellow-400 transition">
+              <Link to="#" className="hover:text-yellow-400 transition">
                 Term Of Service
-              </a>
+              </Link>
               <span>|</span>
-              <a href="#" className="hover:text-yellow-400 transition">
+              <Link to="#" className="hover:text-yellow-400 transition">
                 Privacy Policy
-              </a>
+              </Link>
             </div>
           </div>
         </div>

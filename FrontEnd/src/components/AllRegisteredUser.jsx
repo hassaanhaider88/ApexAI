@@ -10,7 +10,6 @@ const AllRegisterUsers = ({ data }) => {
   const navigate = useNavigate();
   useEffect(() => {
     setAllUserData(data);
-    console.log(AllUserData);
   }, [AllUserData]);
 
   return (
@@ -45,7 +44,6 @@ const AllRegisterUsers = ({ data }) => {
                     <td className="px-4 py-2 border">{user.gender}</td>
                     <td className="px-4 py-2 border gap-2 flex flex-col">
                       {user.course?.map((course, idx) => {
-                        console.log(course);
                         return (
                           <h2
                             key={idx}

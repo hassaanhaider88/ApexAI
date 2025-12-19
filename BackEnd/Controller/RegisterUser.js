@@ -308,7 +308,6 @@ export async function UploadUserCertificate(req, res) {
       data: getUser,
     });
   } catch (error) {
-    console.log("UploadUserCertificate ERROR:", error);
     res.status(500).json({
       success: false,
       message: error.message,
