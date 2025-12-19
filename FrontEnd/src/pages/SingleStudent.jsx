@@ -247,57 +247,64 @@ const SingleStudent = () => {
                 {" "}
                 Student Modules Progress
               </h1>
-              <div className="w-full flex justify-evenly items-center gap-3">
-                <div className="w-1/5">
-                  {UserData?.course[0].courseId.modules.map((module, i) => {
-                    return (
-                      <span
-                        className=" items-center gap-2 flex text-md font-semibold text-nowrap"
-                        key={i}
-                      >
-                        <BsHeartArrow size={18} color="#EAB308" /> {module}
-                      </span>
-                    );
-                  })}
-                </div>
-                <div className="w-1/5 flex flex-col items-center gap-1">
-                  {UserData?.course[0].moduleStatus.map((module, idx) => {
-                    return (
-                      <span
-                        onClick={() => {
-                          const IsConfirm = confirm(
-                            "Are You Sure To Change Status"
+              <div className="w-full  flex md:flex-row flex-col justify-evenly items-center gap-3">
+                {UserData?.course.map((course, idx) => {
+                  return (
+                    <div className=" w-full  flex justify-between">
+                      <div className="">
+                        {course.courseId.modules.map((module, i) => {
+                          return (
+                            <span
+                              className=" items-center gap-2 flex text-md font-semibold text-nowrap"
+                              key={i}
+                            >
+                              <BsHeartArrow size={18} color="#EAB308" />{" "}
+                              {module}
+                            </span>
                           );
-                          if (IsConfirm) {
-                            updateModuleStatus(
-                              UserData?._id,
-                              UserData?.course[0].courseId._id,
-                              module?._id,
-                              !module?.completed
-                            );
-                          } else {
-                            return;
-                          }
-                        }}
-                        className="flex items-center gap-5 text-md font-semibold cursor-pointer nowrap"
-                      >
-                        {module.completed ? (
-                          <BiCheckboxSquare
-                            title="Completed Module"
-                            size={20}
-                            color="#EAB308"
-                          />
-                        ) : (
-                          <BiCheckbox
-                            title="Pending Module"
-                            size={20}
-                            color="#EAB308"
-                          />
-                        )}
-                      </span>
-                    );
-                  })}
-                </div>
+                        })}
+                      </div>
+                      <div className="flex flex-col items-center gap-1">
+                        {course.moduleStatus.map((module, idx) => {
+                          return (
+                            <span
+                              onClick={() => {
+                                const IsConfirm = confirm(
+                                  "Are You Sure To Change Status"
+                                );
+                                if (IsConfirm) {
+                                  updateModuleStatus(
+                                    UserData?._id,
+                                    UserData?.course[0].courseId._id,
+                                    module?._id,
+                                    !module?.completed
+                                  );
+                                } else {
+                                  return;
+                                }
+                              }}
+                              className="flex items-center gap-5 text-md font-semibold cursor-pointer nowrap"
+                            >
+                              {module.completed ? (
+                                <BiCheckboxSquare
+                                  title="Completed Module"
+                                  size={20}
+                                  color="#EAB308"
+                                />
+                              ) : (
+                                <BiCheckbox
+                                  title="Pending Module"
+                                  size={20}
+                                  color="#EAB308"
+                                />
+                              )}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ) : (
