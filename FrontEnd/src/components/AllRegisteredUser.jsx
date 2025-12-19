@@ -45,9 +45,16 @@ const AllRegisterUsers = ({ data }) => {
                     <td className="px-4 py-2 border">{user.gender}</td>
                     <td className="px-4 py-2 border gap-2 flex flex-col">
                       {user.course?.map((course, idx) => {
+                        console.log(course);
                         return (
-                          <h2 key={idx} className="text-nowrap">
-                            {course.code}
+                          <h2
+                            key={idx}
+                            onClick={() =>
+                              navigate(`/courses/${course.courseId}`)
+                            }
+                            className="text-nowrap cursor-pointer duration-300 transition-all hover:underline hover:text-[#FC8508]"
+                          >
+                            {course.courseId}
                           </h2>
                         );
                       })}

@@ -65,7 +65,7 @@ export async function RegisterUser(req, res) {
 
       if (alreadyEnrolled) {
         return res.json({
-          success: false,
+          sucess: false,
           message: "You are already registered for this course",
         });
       }
@@ -78,7 +78,7 @@ export async function RegisterUser(req, res) {
       await CheckUser.save();
 
       return res.json({
-        success: true,
+        sucess: true,
         message: "Course added successfully",
         data: CheckUser,
       });
