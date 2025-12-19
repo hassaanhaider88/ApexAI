@@ -2,7 +2,7 @@ import { useState } from "react";
 import useCourseStore from "../store/useCourseStore";
 import { toast } from "react-toastify";
 import BackEndURI from "../utils/BackEndURI";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Registration() {
   const navigate = useNavigate();
@@ -244,6 +244,12 @@ export default function Registration() {
             Submit
           </button>
         </form>
+        <h1 className="mt-10 text-2xl">
+          already have an account?{" "}
+          <Link to={"/login"} className="hover:underline hover:text-[#EAB308]">
+            Login here
+          </Link>{" "}
+        </h1>
       </div>
     </section>
   );

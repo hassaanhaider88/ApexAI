@@ -14,9 +14,9 @@ import UpdateCourse from "./pages/UpdateCourse";
 import { useEffect, useState } from "react";
 import { GetAllCoursesFromBE } from "./store/useCourseStore";
 import useCourseStore from "./store/useCourseStore";
-import DummyCoures from "./Data/Coures";
 import AddCourse from "./pages/AddCourse";
 import SingleStudent from "./pages/SingleStudent";
+import Login from "./pages/Login";
 
 function App() {
   const Location = useLocation();
@@ -57,6 +57,7 @@ function App() {
           <Route path="/add-course" element={<AddCourse />} />
 
           <Route path="/students/:id" element={<SingleStudent />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
         <Footer />
       </div>

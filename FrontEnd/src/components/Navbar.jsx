@@ -222,6 +222,18 @@ export default function Navbar() {
                       </div>
                     </div>
                   </div>
+                  <h1>
+                    {IsAdminLogin || IsUserLogin ? (
+                      ""
+                    ) : (
+                      <Link
+                        to={"/login"}
+                        className="text-md hover:text-[#EAB308]"
+                      >
+                        Login
+                      </Link>
+                    )}
+                  </h1>
                 </div>
 
                 <Link

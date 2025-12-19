@@ -386,12 +386,12 @@ export default function Home() {
                   </p>
 
                   {/* Button */}
-                  <a
-                    href="/courses"
+                  <Link
+                    to="/courses"
                     className="block mt-auto bg-white/20 backdrop-blur hover:bg-white hover:text-purple-900 py-4 rounded-full font-extrabold text-lg transition-all duration-300 shadow-lg hover:shadow-2xl"
                   >
                     READ MORE →
-                  </a>
+                  </Link>
                 </div>
               </SwiperSlide>
             ))}
