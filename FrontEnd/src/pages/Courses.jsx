@@ -1,3 +1,5 @@
+import { BsShieldFillCheck } from "react-icons/bs";
+import { BiCheckShield } from "react-icons/bi";
 // import { Link } from "react-router-dom";
 
 // export default function Courses() {
@@ -177,8 +179,11 @@
 // }
 
 import { Link } from "react-router-dom";
+import useCourseStore from "../store/useCourseStore";
 
 export default function Courses() {
+  const { AllCourses } = useCourseStore();
+  console.log(AllCourses);
   const courses = [
     {
       title: "AI + GRAPHIC DESIGNING",
@@ -264,7 +269,7 @@ export default function Courses() {
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 text-center">
-          <h1 className="text-6xl md:text-4xl font-extrabold mb-6">
+          <h1 className="text-6xl font-extrabold mb-6">
             <span className="text-yellow-400">COURSES</span> WE OFFER
           </h1>
           <p className="text-3xl font-bold text-yellow-300 urdu">
@@ -276,7 +281,7 @@ export default function Courses() {
       {/* Courses Cards */}
       <section className="py-20 bg-gray-100">
         <div className="max-w-7xl mx-auto px-6 space-y-20">
-          {courses.map((course, i) => (
+          {AllCourses?.map((course, i) => (
             <div
               key={i}
               className={`bg-gradient-to-r from-purple-900 to-pink-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row items-center text-white ${
@@ -288,26 +293,25 @@ export default function Courses() {
                   {course.title}
                 </h2>
                 <ul className="space-y-4 mb-8">
-                  <li className="flex items-center gap-3 text-lg">
-                    <span className="text-yellow-400">Checkmark</span> 100%
-                    Practical Training
-                  </li>
-                  <li className="flex items-center gap-3 text-lg">
-                    <span className="text-yellow-400">Checkmark</span> Live
-                    Projects + Internship
-                  </li>
-                  <li className="flex items-center gap-3 text-lg">
-                    <span className="text-yellow-400">Checkmark</span> Job
-                    Placement Guarantee
-                  </li>
+                  {course.benefits.map((benefit, i) => {
+                    return (
+                      <li className="flex items-center gap-3 text-lg">
+                        <BsShieldFillCheck size={23} color="#FACC15" />{" "}
+                        {benefit}
+                      </li>
+                    );
+                  })}
                 </ul>
-                <div className="flex gap-4 mb-8">
-                  {course.tools.map((tool) => (
+                <h1 className="inline text-3xl font-semibold mb-10">
+                  you Learn
+                </h1>
+                <div className="flex flex-wrap mt-5 gap-4 mb-8">
+                  {course.modules.map((module, i) => (
                     <span
-                      key={tool}
+                      key={i}
                       className="bg-white/20 backdrop-blur px-4 py-2 rounded-lg text-sm font-bold"
                     >
-                      {tool}
+                      {module}
                     </span>
                   ))}
                 </div>
@@ -319,8 +323,15 @@ export default function Courses() {
                 </Link>
               </div>
               <div className="md:w-2/5 p-10">
-                <div className="bg-white/10 backdrop-blur rounded-2xl p-12">
-                  <div className="bg-gray-300 border-2 border-dashed rounded-xl w-full h-64"></div>
+                <div
+                  style={{ borderRadius: "42% 58% 29% 71% / 47% 29% 71% 53% " }}
+                  className="bg-white/10 backdrop-blur rounded-2xl overflow-hidden"
+                >
+                  <img
+                    src={course.image}
+                    alt={course.title}
+                    className="w-full h-full bg-cover"
+                  />
                 </div>
               </div>
             </div>
@@ -335,7 +346,7 @@ export default function Courses() {
         </h2>
         <a
           href="/registration"
-          className="bg-yellow-400 text-purple-900 px-16 py-8 rounded-full text-4xl font-extrabold hover:bg-yellow-300 shadow-2xl inline-block transform hover:scale-110 transition"
+          className="bg-yellow-400 text-purple-900 px-6 py-3 rounded-full text-xl font-extrabold hover:bg-yellow-300 shadow-2xl inline-block transform hover:scale-110 transition"
         >
           ENROLL NOW
         </a>
