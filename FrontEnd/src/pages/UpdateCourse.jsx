@@ -135,6 +135,7 @@ const UpdateCourse = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        getToken: JSON.parse(localStorage.getItem("adminInfo"))?.adminToken,
         ...formData,
         image: CourseImg,
         courseId: searchParams.get("id"),

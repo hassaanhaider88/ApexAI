@@ -1,6 +1,6 @@
 import { GoVerified } from "react-icons/go";
 import { BiImageAdd } from "react-icons/bi";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import MutliValueInputTag from "../components/MutliValueInputTag";
@@ -91,6 +91,7 @@ const AddCourse = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        getToken: JSON.parse(localStorage.getItem("adminInfo"))?.adminToken,
         ...formData,
         image: CourseImg,
       }),
@@ -99,7 +100,7 @@ const AddCourse = () => {
     console.log(Data);
     if (Data.sucess) {
       toast.success("Course Added Sucessfully");
-      navigate('/admin')
+      navigate("/admin");
       return;
     } else {
       toast.error("Something Went Wrong");

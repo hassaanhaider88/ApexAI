@@ -1,5 +1,3 @@
-import { BsShieldFillCheck } from "react-icons/bs";
-import { BiCheckShield } from "react-icons/bi";
 // import { Link } from "react-router-dom";
 
 // export default function Courses() {
@@ -179,37 +177,11 @@ import { BiCheckShield } from "react-icons/bi";
 // }
 
 import { Link } from "react-router-dom";
+import { BsShieldFillCheck } from "react-icons/bs";
 import useCourseStore from "../store/useCourseStore";
 
 export default function Courses() {
   const { AllCourses } = useCourseStore();
-  console.log(AllCourses);
-  const courses = [
-    {
-      title: "AI + GRAPHIC DESIGNING",
-      duration: "2 Months",
-      tools: ["Ai", "Ps", "Figma", "Canva"],
-      link: "/courses/graphic-design",
-    },
-    {
-      title: "FULL STACK DEVELOPMENT (AI POWERED)",
-      duration: "6 Months",
-      tools: ["Next.js", "TypeScript", "PostgreSQL", "OpenAI"],
-      link: "/courses/full-stack",
-    },
-    {
-      title: "WEB DEVELOPMENT (CMS)",
-      duration: "4 Months",
-      tools: ["HTML", "WordPress", "WooCommerce"],
-      link: "/courses/web-cms",
-    },
-    {
-      title: "DIGITAL MARKETING & SEO",
-      duration: "3 Months",
-      tools: ["Google", "Facebook Ads", "SEO"],
-      link: "/courses/digital-marketing",
-    },
-  ];
 
   return (
     <>

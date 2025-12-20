@@ -74,7 +74,6 @@ const SingleStudent = () => {
     getSingleUser();
   }, []);
 
-  // console.log(UserData);
   const hanldeUserApprovnessChange = async (user) => {
     try {
       if (confirm("Are You Sure To Change User's Approvness")) {
@@ -84,6 +83,7 @@ const SingleStudent = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            getToken: JSON.parse(localStorage.getItem("adminInfo"))?.adminToken,
             userId: id,
             IsCourseRegistrationApproved: !user.isCourseRegistrationApproved,
           }),
@@ -111,6 +111,7 @@ const SingleStudent = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            getToken: JSON.parse(localStorage.getItem("adminInfo"))?.adminToken,
             userId: id,
           }),
         });
@@ -131,13 +132,13 @@ const SingleStudent = () => {
 
   const updateModuleStatus = async (userId, courseId, ModuleId, completed) => {
     try {
-      console.log(userId, courseId, ModuleId, completed);
       const res = await fetch(`${BackEndURI}/api/user/update-module`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          getToken: JSON.parse(localStorage.getItem("adminInfo"))?.adminToken,
           userId,
           courseId,
           ModuleId,
@@ -183,10 +184,8 @@ const SingleStudent = () => {
       });
 
       const data = await res.json();
-      console.log(data);
       if (data.sucess) {
         //  here update user's certificate link
-        console.log(courseId, userId);
         const Res = await fetch(`${BackEndURI}/api/user/upload-certificate`, {
           method: "POST",
           headers: {
@@ -199,7 +198,6 @@ const SingleStudent = () => {
           }),
         });
         const Data2 = await Res.json();
-        console.log(Data2);
         if (Data2.success) {
           toast.success("Certificate Uploaded Successfully");
           getSingleUser();

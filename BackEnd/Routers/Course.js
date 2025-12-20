@@ -6,13 +6,14 @@ import {
   getSingeCourseFromDB,
   UpdateCourse,
 } from "../Controller/Course.js";
+import { isAdmin } from "../middlewares/IsAdmin.js";
 
 const router = express.Router();
 
-router.post("/create", CreateCourse);
+router.post("/create", isAdmin,CreateCourse);
 router.get("/get-all", getAllCourseFromDB);
 router.post("/get-single", getSingeCourseFromDB);
-router.post("/update", UpdateCourse);
-router.post("/delete", DeleteCourse);
+router.post("/update", isAdmin,UpdateCourse);
+router.post("/delete",isAdmin ,DeleteCourse);
 
 export default router;

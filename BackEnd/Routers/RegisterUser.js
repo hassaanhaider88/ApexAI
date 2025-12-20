@@ -9,6 +9,7 @@ import {
   updateUserModuleStatus,
   UploadUserCertificate,
 } from "../Controller/RegisterUser.js";
+import { isAdmin } from "../middlewares/IsAdmin.js";
 
 const router = express.Router();
 
@@ -20,12 +21,12 @@ router.post("/login", LoginUser);
 
 router.post("/get-profile", GetProfile);
 
-router.post("/update-profile", UpdateUserApproveness);
+router.post("/update-profile", isAdmin, UpdateUserApproveness);
 
-router.post("/delete-profile", DeleteUser);
+router.post("/delete-profile", isAdmin, DeleteUser);
 
-router.post("/update-module", updateUserModuleStatus);
+router.post("/update-module", isAdmin, updateUserModuleStatus);
 
-router.post('/upload-certificate',UploadUserCertificate)
+router.post("/upload-certificate", UploadUserCertificate);
 
 export default router;

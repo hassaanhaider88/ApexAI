@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 import useCourseStore, { GetAllCoursesFromBE } from "../store/useCourseStore";
 import { Link, useNavigate } from "react-router-dom";
 import AllRegisterUsers from "../components/AllRegisteredUser";
-import RegisterUsers from "../Data/RegisterUser";
 
 export default function Admin() {
   const { setAllCourses, AllCourses } = useCourseStore();
@@ -80,6 +79,7 @@ export default function Admin() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            getToken: JSON.parse(localStorage.getItem("adminInfo"))?.adminToken,
             courseId,
           }),
         });

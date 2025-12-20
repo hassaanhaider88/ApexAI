@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import useCourseStore from "../store/useCourseStore";
+import getAdminInfo from "../utils/getAdmin";
 
 export default function Navbar() {
   const Location = useLocation();
@@ -24,8 +25,12 @@ export default function Navbar() {
   }, [Location]);
 
   useEffect(() => {
-    const getAdmin = localStorage.getItem("adminInfo");
-    if (getAdmin) {
+    WhoIsLogin();
+  }, [Location]);
+
+  const WhoIsLogin = async () => {
+    const getAdmin = await getAdminInfo();
+    if (getAdmin.sucess) {
       setIsAdminLogin(true);
       setIsUserLogin(false);
     } else {
@@ -38,9 +43,7 @@ export default function Navbar() {
         setIsUserLogin(false);
       }
     }
-  }, [Location]);
-
-  console.log(IsAdminLogin, IsUserLogin);
+  };
   const isActive = (path) => {
     if (path.startsWith("#")) {
       return location.hash === path;
