@@ -12,3 +12,4 @@ async function HashPassword(password) {
 }
 
 export default HashPassword;
+ 
