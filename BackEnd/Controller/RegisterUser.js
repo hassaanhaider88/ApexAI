@@ -1,7 +1,7 @@
 import User from "../Modals/RigesterUser.js";
 import Course from "../Modals/Course.js";
-import CheckPassword from "../Utils/CheckPassword.js";
-import HashPassword from "../Utils/HashPassword.js";
+import CheckPassword from "../utils/CheckPassword.js";
+import HashPassword from "../utils/HashPassword.js";
 
 export async function AllRegisteredUser(req, res) {
   try {
