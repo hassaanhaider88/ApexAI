@@ -315,7 +315,7 @@ const SingleStudent = () => {
                 Student Modules Progress
               </h1>
               <div className="w-full  flex md:flex-row flex-col justify-evenly items-center gap-3">
-                {UserData?.course.map((course,idx) => {
+                {UserData?.course.map((course, idx) => {
                   return (
                     <div key={idx} className=" w-full  flex justify-between">
                       <div className="">
