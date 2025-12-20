@@ -6,7 +6,7 @@ import connectDB from "./Configs/ConnectDB.js";
 import AdminRouter from "./Routers/Admin.js";
 import RegisterAdminRouter from "./Routers/RegisterUser.js";
 import CourseRouter from "./Routers/Course.js";
-import hadleImgeUpload from "./Controller/UploadRoute.js";
+import hadleImgeUpload from "./Controller/uploadRoute.js";
 import upload from "./Utils/Multer.js";
 import ContactUsRouter from "./Routers/ContactUs.js";
 
