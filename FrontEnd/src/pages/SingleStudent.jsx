@@ -220,9 +220,6 @@ const SingleStudent = () => {
     saveAs(url, "certificate.jpg");
   };
 
-  // const UserCourseModule = UserData?.course.map((u) =>
-  //   u.moduleStatus.map((m) => m)
-  // );
   return (
     <div className="min-h-screen bg-black text-white px-6 py-10">
       {/* Page Title */}
@@ -318,9 +315,9 @@ const SingleStudent = () => {
                 Student Modules Progress
               </h1>
               <div className="w-full  flex md:flex-row flex-col justify-evenly items-center gap-3">
-                {UserData?.course.map((course, idx) => {
+                {UserData?.course.map((course,idx) => {
                   return (
-                    <div className=" w-full  flex justify-between">
+                    <div key={idx} className=" w-full  flex justify-between">
                       <div className="">
                         {course.courseId.modules.map((module, i) => {
                           return (
@@ -479,7 +476,7 @@ const SingleStudent = () => {
                   {item.CourseCertificate ? (
                     <div className="relative flex justify-center items-center w-full h-full">
                       <img
-                        className="bg-cover h-[80%] w-1/2 rounded-2xl"
+                        className="bg-cover h-[80%] md:w-1/2 w-[80%] rounded-2xl"
                         src={item.CourseCertificate}
                         alt=""
                       />
@@ -488,7 +485,7 @@ const SingleStudent = () => {
                       ) : (
                         <div
                           title="No Unlock Yet"
-                          className="bg-[#333333da] flex-col rounded-2xl flex justify-center items-center absolute w-1/2 h-full"
+                          className="bg-[#333333da] flex-col rounded-2xl flex justify-center items-center absolute md:w-1/2 w-[80%] h-full"
                         >
                           <BsFillShieldLockFill color="#F27500" size={50} />
                           <h1 className="text-2xl font-semibold text-white">
@@ -501,14 +498,14 @@ const SingleStudent = () => {
                     <div className="relative flex justify-center items-center w-full h-full">
                       {UploadCertificateFile ? (
                         <img
-                          className="w-1/2 h-[80%] bg-cover"
+                          className="md:w-1/2 w-[80%] h-[80%] bg-cover"
                           src={UploadCertificateFile}
                           alt=""
                         />
                       ) : (
                         <div
                           onClick={() => UploadCertificateRef.current.click()}
-                          className="UploaderCertificate w-1/2 h-[200px] rounded-3xl flex justify-center items-center  cursor-pointer bg-[#333333be]"
+                          className="UploaderCertificate md:w-1/2 w-[80%] h-[200px] rounded-3xl flex justify-center items-center  cursor-pointer bg-[#333333be]"
                         >
                           <MdOutlineCloudUpload size={50} />
                           <input

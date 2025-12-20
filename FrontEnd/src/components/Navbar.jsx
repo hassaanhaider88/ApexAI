@@ -116,8 +116,8 @@ export default function Navbar() {
                   alt="APEX"
                   className="h-16 w-16 sm:h-18 sm:w-18 md:h-20 md:w-20 lg:h-22 lg:w-22 object-contain"
                 />
-                <div className="leading-tight w-96">
-                  <h1 className="text-7xl sm:text-7xl md:text-7xl lg:text-5xl font-extrabold tracking-tight">
+                <div className="leading-tight sm:w-96 w-52">
+                  <h1 className="text-3xl sm:text-7xl md:text-7xl lg:text-5xl font-extrabold tracking-tight">
                     <span className="text-black">APEX</span>
                     <span className="text-sky-300"> Ai</span>
                   </h1>
@@ -213,9 +213,9 @@ export default function Navbar() {
                     )}
                     <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 opacity-0 invisible scale-95 group-hover:opacity-100 group-hover:visible group-hover:scale-100 transition-all duration-500 z-50">
                       <div className="p-6 space-y-3">
-                        {AllCourses?.map((c) => (
+                        {AllCourses?.map((c, i) => (
                           <Link
-                            key={c}
+                            key={i}
                             to={`/courses/${c._id}`}
                             className="block p-4 rounded-xl hover:bg-purple-50 font-semibold"
                           >
