@@ -1,5 +1,5 @@
 import express from "express";
-import upload from "../utils/Multer.js";
+import upload from "../Utils/Multer.js";
 import cloudinary from "../Configs/cloudinary.js";
 
 const router = express.Router();
