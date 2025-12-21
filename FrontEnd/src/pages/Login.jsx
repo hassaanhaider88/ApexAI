@@ -33,7 +33,6 @@ const Login = () => {
         }),
       });
       const data = await res.json();
-      console.log(data);
       if (data.sucess) {
         toast.success("Admin Login Sucessful");
         localStorage.setItem(
@@ -56,7 +55,6 @@ const Login = () => {
         }),
       });
       const data = await res.json();
-      console.log(data);
       if (data.sucess) {
         toast.success("Student Login Sucessful");
         localStorage.setItem("userinfo", data.data._id);

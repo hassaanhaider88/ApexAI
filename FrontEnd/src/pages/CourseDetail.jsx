@@ -12,7 +12,6 @@ export default function CourseDetail() {
   useEffect(() => {
     const course = AllCourses.find((c) => c._id === courseId);
     setSingleCourse(course);
-    console.log(course);
   }, [Location, AllCourses]);
 
   // Course data – baad mein backend se bhi la sakte ho

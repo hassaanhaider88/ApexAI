@@ -7,7 +7,6 @@ import { useNavigate, Link } from "react-router-dom";
 export default function Registration() {
   const navigate = useNavigate();
   const { AllCourses } = useCourseStore();
-  console.log(AllCourses);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -25,7 +24,6 @@ export default function Registration() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     try {
       const Res = await fetch(`${BackEndURI}/api/user/register`, {
         method: "POST",
@@ -37,7 +35,6 @@ export default function Registration() {
         }),
       });
       const Data = await Res.json();
-      console.log(Data);
       if (Data.sucess) {
         toast.success("Registration Sucessfully");
         localStorage.setItem("userinfo", Data.data._id);

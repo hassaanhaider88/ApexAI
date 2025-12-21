@@ -84,7 +84,6 @@ const AddCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!CourseImg) return toast.error("please select image");
-    console.log(formData);
     const Res = await fetch(`${BackEndURI}/api/course/create`, {
       method: "POST",
       headers: {
@@ -97,7 +96,6 @@ const AddCourse = () => {
       }),
     });
     const Data = await Res.json();
-    console.log(Data);
     if (Data.sucess) {
       toast.success("Course Added Sucessfully");
       navigate("/admin");

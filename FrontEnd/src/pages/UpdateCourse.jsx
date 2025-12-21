@@ -53,7 +53,6 @@ const UpdateCourse = () => {
       }),
     });
     const singleCourse = await Res.json();
-    console.log(singleCourse);
     setFormData({
       cTitle: singleCourse.data.title,
       cCode: singleCourse.data.code,
@@ -81,7 +80,6 @@ const UpdateCourse = () => {
 
     reader.onload = () => {
       setCourseImg(reader.result);
-      console.log(reader.result);
     };
   };
 
@@ -108,9 +106,7 @@ const UpdateCourse = () => {
         body: formData,
       });
 
-      console.log(res);
       const data = await res.json();
-      console.log(data);
       if (data.sucess) {
         setCourseImg(data.url);
         setIsUploadImgSucess(true);

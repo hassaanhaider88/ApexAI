@@ -17,6 +17,6 @@ export async function GetAllCoursesFromBE() {
     return data.data;
   } catch (error) {
     console.log(error);
-    return;
+    return [];
   }
 }

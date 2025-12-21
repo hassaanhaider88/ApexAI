@@ -19,7 +19,6 @@ export default function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     const res = await fetch(`${BackendURI}/api/contact`, {
       method: "POST",
       headers: {

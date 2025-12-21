@@ -59,7 +59,6 @@ export default function Admin() {
     const SearchResult = AllUsers.filter((user) =>
       user?.firstName.toLowerCase().startsWith(e.target.value)
     );
-    console.log(SearchResult);
     setFilteredUsers(SearchResult);
   };
 
@@ -83,7 +82,6 @@ export default function Admin() {
             courseId,
           }),
         });
-        console.log(res);
         const data = await res.json();
         if (data.sucess) {
           toast.success("Course Deleted Sucessfully");
@@ -115,7 +113,6 @@ export default function Admin() {
         }),
       });
       const Data = await Res.json();
-      console.log(Data);
       if (Data.sucess) {
         setCheckAdminRegister(true);
         localStorage.setItem("adminInfo", JSON.stringify({ AdminEmail }));
