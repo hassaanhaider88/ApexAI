@@ -17,7 +17,7 @@ body {
 /* Perfect Infinite Marquee + Hover Pause (100% working) */
 .animate-marquee-infinite {
   display: flex;
-  animation: marquee 20s linear infinite;
+  animation: marquee 90s linear infinite;
 }
 
 /* @keyframes marquee {
@@ -72,7 +72,7 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #F8CB15;
+  background: #f8cb15;
   border-radius: 20px;
   cursor: pointer;
 }
@@ -80,4 +80,18 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #f8cb15b2;
+}
+
+/* index.css */
+.swiper-pagination-bullet {
+  background: white;
+  opacity: 0.5;
+  width: 12px;
+  height: 12px;
+}
+
+.swiper-pagination-bullet-active {
+  background: #ffb400;
+  opacity: 1;
+  transform: scale(1.4);
 }

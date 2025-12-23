@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function BlogPage() {
+export default function BlogsPage() {
   const blogPosts = [
     {
       id: 1,
@@ -89,7 +89,7 @@ export default function BlogPage() {
 
                   {/* Read More Button */}
                   <Link
-                    to={`/blog/${post.id}`}
+                    // to={`/blog/${post.id}`} later implemented
                     className="inline-block bg-yellow-500 text-purple-900 px-8 py-3 rounded-full font-extrabold hover:bg-yellow-400 transform hover:scale-105 transition-all shadow-lg"
                   >
                     Read More →

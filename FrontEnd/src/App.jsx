@@ -9,7 +9,7 @@ import Admin from "./pages/Admin";
 import Registration from "./pages/Registration";
 import About from "./pages/About";
 import ContactPage from "./pages/Contact";
-import BlogPage from "./pages/Blog";
+import BlogsPage from "./pages/Blogs";
 import UpdateCourse from "./pages/UpdateCourse";
 import { useEffect, useState } from "react";
 import { GetAllCoursesFromBE } from "./store/useCourseStore";
@@ -17,6 +17,8 @@ import useCourseStore from "./store/useCourseStore";
 import AddCourse from "./pages/AddCourse";
 import SingleStudent from "./pages/SingleStudent";
 import Login from "./pages/Login";
+import FourZFour from "./pages/FourZFour";
+import SingleBlog from "./pages/SingleBlog";
 
 function App() {
   const Location = useLocation();
@@ -50,7 +52,8 @@ function App() {
           <Route path="/courses" element={<Courses />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog" element={<BlogsPage />} />
+          <Route path="/blog/:id" element={<SingleBlog />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/courses/:courseId" element={<CourseDetail />} />
           <Route path="/update-course" element={<UpdateCourse />} />
@@ -58,6 +61,8 @@ function App() {
 
           <Route path="/students/:id" element={<SingleStudent />} />
           <Route path="/login" element={<Login />} />
+          <Route path="*" element={<FourZFour />} />
+          
         </Routes>
         <Footer />
       </div>

@@ -80,7 +80,7 @@ export default function Navbar() {
               (e.currentTarget.style.animationPlayState = "running")
             }
           >
-            {[...Array(2)].map((_, i) => (
+            {[...Array(7)].map((_, i) => (
               <div key={i} className="flex items-center">
                 <span className="mx-10 text-2xl uppercase">
                   Admissions are open for the fresh batch. let’s grow together
@@ -175,7 +175,7 @@ export default function Navbar() {
                     },
                     { name: "ABOUT US", path: "/about" },
                     { name: "BLOG", path: "/blog" },
-                    { name: "TESTIMONIAL", path: "/testimonial-section" },
+                    { name: "TESTIMONIAL", path: "#testimonial-section" },
                     { name: "CONTACT US", path: "/contact" },
                   ].map((item) => (
                     <Link
