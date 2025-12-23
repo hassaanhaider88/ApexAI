@@ -10,6 +10,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    fatherName: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
@@ -36,7 +40,7 @@ const userSchema = new Schema(
 
         moduleStatus: [
           {
-            moduleIndex: Number, // 0,1,2...
+            moduleIndex: Number,
             completed: {
               type: Boolean,
               default: false,

@@ -31,6 +31,7 @@ export async function RegisterUser(req, res) {
     const {
       firstName,
       lastName,
+      fatherName,
       email,
       password,
       phone,
@@ -89,6 +90,7 @@ export async function RegisterUser(req, res) {
         password: HashPass,
         firstName,
         lastName,
+        fatherName,
         phone,
         gender,
         course: [

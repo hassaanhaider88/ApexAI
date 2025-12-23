@@ -13,6 +13,7 @@ export default function Registration() {
     lastName: "",
     email: "",
     password: "",
+    fatherName: "",
     phone: "",
     gender: "",
     course: "",
@@ -48,40 +49,6 @@ export default function Registration() {
       toast.error(error.message);
       return;
     }
-
-    // Auto WhatsApp Message
-    // const message =
-    //   `*NEW REGISTRATION*%0A%0A` +
-    //   `*Name:* ${formData.firstName} ${formData.lastName}%0A` +
-    //   `*Email:* ${formData.email}%0A` +
-    //   `*Phone:* ${formData.phone}%0A` +
-    //   `*Gender:* ${formData.gender}%0A` +
-    //   `*Course:* ${formData.course}%0A` +
-    //   `*Address:* ${formData.address}, ${formData.city}, ${formData.province}%0A` +
-    //   `*Comments:* ${formData.comments || "N/A"}%0A%0A` +
-    //   `Submitted on: ${new Date().toLocaleString()}`;
-
-    // const whatsappURL = `https://wa.me/923000123456?text=${message}`;
-    // window.open(whatsappURL, "_blank");
-
-    // Save to localStorage
-    // const leads = JSON.parse(localStorage.getItem("leads") || "[]");
-    // leads.push({ ...formData, date: new Date().toLocaleString() });
-    // localStorage.setItem("leads", JSON.stringify(leads));
-
-    // // alert("Registration Successful! Aapka form WhatsApp pe chala gaya hai!");
-    // setFormData({
-    //   firstName: "",
-    //   lastName: "",
-    //   email: "",
-    //   phone: "",
-    //   gender: "",
-    //   course: "",
-    //   address: "",
-    //   city: "",
-    //   province: "",
-    //   comments: "",
-    // });
   };
 
   return (
@@ -105,135 +72,206 @@ export default function Registration() {
           onSubmit={handleSubmit}
           className="grid md:grid-cols-2 gap-8 text-lg"
         >
-          {/* Row 1 */}
-          <input
-            type="text"
-            placeholder="First Name"
-            required
-            value={formData.firstName}
-            onChange={(e) =>
-              setFormData({ ...formData, firstName: e.target.value })
-            }
-            className="border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
-          />
-          <input
-            type="text"
-            placeholder="Last Name"
-            required
-            value={formData.lastName}
-            onChange={(e) =>
-              setFormData({ ...formData, lastName: e.target.value })
-            }
-            className="border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
-          />
+          {/* First Name */}
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+              First Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              value={formData.firstName}
+              onChange={(e) =>
+                setFormData({ ...formData, firstName: e.target.value })
+              }
+              className="w-full border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
+            />
+          </div>
 
-          {/* Row 2 */}
-          <input
-            type="email"
-            placeholder="Email"
-            required
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-            className="border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
-          />
-          <input
-            type="tel"
-            placeholder="Phone Number"
-            required
-            value={formData.phone}
-            onChange={(e) =>
-              setFormData({ ...formData, phone: e.target.value })
-            }
-            className="border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
-          />
+          {/* Last Name */}
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+              Last Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              value={formData.lastName}
+              onChange={(e) =>
+                setFormData({ ...formData, lastName: e.target.value })
+              }
+              className="w-full border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
+            />
+          </div>
 
-          {/* Row 2.5 for password */}
-          <input
-            type="password"
-            placeholder="Your Password"
-            required
-            value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-            className="md:col-span-2 border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
-          />
+          {/* Email */}
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+              Email <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              required
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              className="w-full border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
+            />
+          </div>
+          {/* Password */}
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+              Password <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="password"
+              required
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+              className="w-full border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
+            />
+          </div>
 
-          {/* Row 3 */}
-          <select
-            required
-            value={formData.gender}
-            onChange={(e) =>
-              setFormData({ ...formData, gender: e.target.value })
-            }
-            className="border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2"
-          >
-            <option value="">Gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-          </select>
+          {/* Father name */}
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+              Father Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              value={formData.fatherName}
+              onChange={(e) =>
+                setFormData({ ...formData, fatherName: e.target.value })
+              }
+              className="w-full border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
+            />
+          </div>
 
-          <select
-            required
-            value={formData.course}
-            onChange={(e) =>
-              setFormData({ ...formData, course: e.target.value })
-            }
-            className="border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2"
-          >
-            <option value="">Please Select Course</option>
-            {AllCourses.map((course, idx) => {
-              return <option key={idx}>{course.title}</option>;
-            })}
-          </select>
+          {/* Phone */}
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+              Phone Number <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="tel"
+              required
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
+              className="w-full border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
+            />
+          </div>
 
-          {/* Row 4 */}
-          <input
-            type="text"
-            placeholder="Address"
-            required
-            value={formData.address}
-            onChange={(e) =>
-              setFormData({ ...formData, address: e.target.value })
-            }
-            className="md:col-span-2 border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
-          />
+          {/* Gender */}
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+              Gender <span className="text-red-500">*</span>
+            </label>
+            <select
+              required
+              value={formData.gender}
+              onChange={(e) =>
+                setFormData({ ...formData, gender: e.target.value })
+              }
+              className="w-full border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2"
+            >
+              <option value="">Select Gender</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </div>
 
-          {/* Row 5 */}
-          <input
-            type="text"
-            placeholder="City"
-            required
-            value={formData.city}
-            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-            className="border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
-          />
-          <input
-            type="text"
-            placeholder="State / Province / Region"
-            required
-            value={formData.province}
-            onChange={(e) =>
-              setFormData({ ...formData, province: e.target.value })
-            }
-            className="border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
-          />
+          {/* Course */}
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+              Course <span className="text-red-500">*</span>
+            </label>
+            <select
+              required
+              value={formData.course}
+              onChange={(e) =>
+                setFormData({ ...formData, course: e.target.value })
+              }
+              className="w-full border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2"
+            >
+              <option value="">Please Select Course</option>
+              {AllCourses.map((course, idx) => (
+                <option key={idx}>{course.title}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Address */}
+          <div className="md:col-span-2">
+            <label className="block text-sm text-gray-600 mb-1">
+              Address <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              value={formData.address}
+              onChange={(e) =>
+                setFormData({ ...formData, address: e.target.value })
+              }
+              className="w-full border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
+            />
+          </div>
+
+          {/* City */}
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+              City <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              value={formData.city}
+              onChange={(e) =>
+                setFormData({ ...formData, city: e.target.value })
+              }
+              className="w-full border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
+            />
+          </div>
+
+          {/* Province */}
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+              State / Province <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              value={formData.province}
+              onChange={(e) =>
+                setFormData({ ...formData, province: e.target.value })
+              }
+              className="w-full border-b-2 border-gray-300 focus:border-purple-600 outline-none py-3 px-2 transition"
+            />
+          </div>
 
           {/* Comments */}
-          <textarea
-            placeholder="Additional Comments"
-            rows="4"
-            value={formData.comments}
-            onChange={(e) =>
-              setFormData({ ...formData, comments: e.target.value })
-            }
-            className="md:col-span-2 border-2 border-gray-300 rounded-xl p-4 focus:border-purple-600 outline-none transition"
-          />
+          <div className="md:col-span-2">
+            <label className="block text-sm text-gray-600 mb-1">
+              Additional Comments
+              <span className="text-gray-400">(Optional)</span>
+            </label>
+            <textarea
+              rows="4"
+              value={formData.comments}
+              onChange={(e) =>
+                setFormData({ ...formData, comments: e.target.value })
+              }
+              className="w-full border-2 border-gray-300 rounded-xl p-4 focus:border-purple-600 outline-none transition"
+            />
+          </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
             type="submit"
             className="md:col-span-2 bg-yellow-500 hover:bg-yellow-600 text-purple-900 py-6 rounded-full text-3xl font-extrabold shadow-2xl transform hover:scale-105 transition-all duration-300"
@@ -241,6 +279,7 @@ export default function Registration() {
             Submit
           </button>
         </form>
+
         <h1 className="mt-10 text-2xl">
           already have an account?{" "}
           <Link to={"/login"} className="hover:underline hover:text-[#EAB308]">

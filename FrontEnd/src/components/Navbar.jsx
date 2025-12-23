@@ -121,7 +121,7 @@ export default function Navbar() {
                     <span className="text-black">APEX</span>
                     <span className="text-sky-300"> Ai</span>
                   </h1>
-                  <p className="text-black font-semibold text-xs sm:text-sm md:text-base lg:text-lg pt-2 -mt-1 sm:-mt-2 tracking-wider opacity-90">
+                  <p className="text-black font-semibold text-xs sm:text-sm md:text-base lg:text-lg pt-2 -mt-1 sm:-mt-2 md:tracking-[0.5rem] tracking-[0.3rem] opacity-90">
                     IT Institute
                   </p>
                 </div>
