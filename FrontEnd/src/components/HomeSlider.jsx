@@ -4,24 +4,21 @@ import { Link } from "react-router-dom";
 const slides = [
   {
     id: 1,
-    image:
-      "https://i.pinimg.com/originals/7e/50/2c/7e502cef624bd996aa648babd95ef68a.jpg",
-    align: "left",
+    image: "https://i.pinimg.com/videos/thumbnails/originals/e4/db/f9/e4dbf9ce785f57566e7aab511fc783fa.0000000.jpg",
     title: "APEX AI IT INSTITUTE",
+    subtitle: "Learn future-ready skills with real projects",
   },
   {
     id: 2,
-    image:
-      "https://i.pinimg.com/originals/b4/f3/37/b4f33726fec60de995173ac1f8b7fccd.jpg",
-    align: "right",
+    image: "https://i.pinimg.com/originals/c8/cd/90/c8cd9002a6edbf84f1e42a182eb00797.jpg",
     title: "WEB DEVELOPMENT",
+    subtitle: "From fundamentals to production-level apps",
   },
   {
     id: 3,
-    image:
-      "https://i.pinimg.com/originals/ed/e0/b1/ede0b119e3663782d2ce2705bca1e7aa.jpg",
-    align: "center",
+    image: "https://i.pinimg.com/originals/e8/4f/bb/e84fbb9ceb0d14aa859581f7d1a9e1a0.jpg",
     title: "FREELANCING",
+    subtitle: "Build skills that convert into real income",
   },
 ];
 
@@ -29,88 +26,63 @@ export default function HeroSlider() {
   const [index, setIndex] = useState(0);
   const intervalRef = useRef(null);
 
-  const startAutoSlide = () => {
-    stopAutoSlide();
+  useEffect(() => {
     intervalRef.current = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
-    }, 2000);
-  };
+    }, 4500);
 
-  const stopAutoSlide = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  };
-
-  useEffect(() => {
-    startAutoSlide();
-    return stopAutoSlide;
+    return () => clearInterval(intervalRef.current);
   }, []);
 
   return (
-    <section
-      className="relative min-h-screen w-full  overflow-hidden"
-      onMouseEnter={stopAutoSlide}
-      onMouseLeave={startAutoSlide}
-    >
-      {/* Slides */}
+    <section className="relative h-screen w-full overflow-hidden">
       {slides.map((slide, i) => (
         <div
           key={slide.id}
-          className={`absolute  inset-0 transition-opacity duration-1000 ${
-            i === index ? "opacity-100 z-10" : "opacity-0"
+          className={`absolute inset-0 transition-all duration-1000 ease-out ${
+            i === index ? "opacity-100 scale-100 z-10" : "opacity-0 scale-105"
           }`}
         >
+          {/* Image */}
           <img
             src={slide.image}
-            className="w-full h-screen bg-cover object-cover"
-            alt=""
+            alt={slide.title}
+            className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/60" />
 
-          <div
-            className={`relative h-full flex items-center ${
-              slide.align === "right"
-                ? "justify-end text-right"
-                : slide.align === "center"
-                ? "justify-center text-center"
-                : "justify-start"
-            }`}
-          >
-            <div className="max-w-5xl px-8 text-white">
-              <h1 className="text-6xl md:text-8xl font-extrabold text-yellow-400">
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/65" />
+
+          {/* Content */}
+          <div className="relative z-20 flex h-full items-center">
+            <div className="max-w-6xl px-6 md:px-12">
+              <h1 className="text-4xl md:text-7xl font-extrabold text-yellow-400 leading-tight">
                 {slide.title}
               </h1>
+
+              <p className="mt-6 max-w-xl text-lg md:text-xl text-gray-200">
+                {slide.subtitle}
+              </p>
+
               <Link
                 to="/registration"
-                className="inline-block mt-10 bg-yellow-400 text-purple-900 px-10 py-6 rounded-full text-2xl font-extrabold hover:scale-110 transition"
+                className="inline-block mt-10 rounded-full bg-yellow-400 px-10 py-4 text-lg font-bold text-purple-900 transition hover:scale-105"
               >
-                ENROLL NOW
+                Enroll Now
               </Link>
             </div>
           </div>
         </div>
       ))}
 
-      {/* Click navigation */}
-      <div
-        className="absolute inset-0 z-20"
-        onClick={(e) =>
-          e.clientX < window.innerWidth / 2
-            ? setIndex((i) => (i - 1 + slides.length) % slides.length)
-            : setIndex((i) => (i + 1) % slides.length)
-        }
-      />
-
       {/* Dots */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-3">
+      <div className="absolute bottom-10 left-1/2 z-30 flex -translate-x-1/2 gap-3">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setIndex(i)}
-            className={`w-3 h-3 rounded-full transition ${
-              i === index ? "bg-yellow-400 scale-125" : "bg-white/50"
+            className={`h-3 w-3 rounded-full transition ${
+              i === index ? "bg-yellow-400 scale-125" : "bg-white/40"
             }`}
           />
         ))}

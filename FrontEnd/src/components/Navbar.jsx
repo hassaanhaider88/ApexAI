@@ -213,7 +213,8 @@ export default function Navbar() {
                     )}
                     <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 opacity-0 invisible scale-95 group-hover:opacity-100 group-hover:visible group-hover:scale-100 transition-all duration-500 z-50">
                       <div className="p-6 space-y-3">
-                        {AllCourses?.map((c, i) => (
+
+                        {AllCourses && AllCourses?.map((c, i) => (
                           <Link
                             key={i}
                             to={`/courses/${c._id}`}
