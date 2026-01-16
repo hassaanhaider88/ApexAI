@@ -8,17 +8,19 @@ const Login = () => {
   const [Email, setEmail] = useState("");
   const [Pass, setPass] = useState("");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (localStorage.getItem("adminInfo")) {
+      toast.success("Admin Login Sucessful");
       navigate("/admin");
     } else if (localStorage.getItem("userinfo")) {
       navigate("/");
     } else {
       return;
     }
-  }, []);
+  }, [navigate]);
 
-  const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
     if (role === "admin") {

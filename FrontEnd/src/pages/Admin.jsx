@@ -15,13 +15,20 @@ import AllRegisterUsers from "../components/AllRegisteredUser";
 export default function Admin() {
   const { setAllCourses, AllCourses } = useCourseStore();
   const navigate = useNavigate();
-  const [leads] = useState(JSON.parse(localStorage.getItem("leads") || "[]"));
+  // const [leads] = useState(JSON.parse(localStorage.getItem("leads") || "[]"));
   const [CheckAdminRegister, setCheckAdminRegister] = useState(false);
   const [SearchName, setSearchName] = useState("");
   const [AdminEmail, setAdminEmail] = useState("");
   const [AdminPass, setAdminPass] = useState("");
   const [AllUsers, setAllUsers] = useState([]);
   const [FilteredUsers, setFilteredUsers] = useState([]);
+
+  useEffect(() => {
+    GetAllCoursesFromBE().then((data) => {
+      setAllCourses(data);
+    });
+  }, [setAllCourses]);
+
   useEffect(() => {
     const GetAdminInfoFromLS = localStorage.getItem("adminInfo");
     if (GetAdminInfoFromLS) {
@@ -31,21 +38,17 @@ export default function Admin() {
     }
   }, [CheckAdminRegister]);
 
-  useEffect(() => {
-    FetchUsersData();
-  }, []);
-
   const FetchUsersData = async () => {
     try {
       const Res = await fetch(`${BackEndURI}/api/user/all-users`);
       const data = await Res.json();
       if (data.sucess) {
-        setAllUsers(data.data); // full list
-        setFilteredUsers(data.data); // initially all users shown
+        setAllUsers(data.data);
+        setFilteredUsers(data.data);
         toast.success(data.message);
       } else {
-        setAllUsers([]); // full list
-        setFilteredUsers([]); // initially all users shown
+        setAllUsers([]);
+        setFilteredUsers([]);
         toast.error(data.message);
       }
     } catch (error) {
@@ -53,6 +56,10 @@ export default function Admin() {
       toast.error(error.message);
     }
   };
+
+  useEffect(() => {
+    FetchUsersData();
+  }, []);
 
   const hanldeUserSearchByName = (e) => {
     setSearchName(e.target.value);
@@ -68,6 +75,7 @@ export default function Admin() {
       navigate(`/update-course?id=${courseId}`);
     }
   };
+
   const hanldeCourseDeletion = async (courseId) => {
     const IsReallyDelete = confirm("Are you sure to delete Course");
     if (IsReallyDelete) {
@@ -85,7 +93,8 @@ export default function Admin() {
         const data = await res.json();
         if (data.sucess) {
           toast.success("Course Deleted Sucessfully");
-          setAllCourses(GetAllCoursesFromBE());
+          // navigate("/admin");
+          setAllCourses(await GetAllCoursesFromBE());
           return;
         } else {
           toast.error("Something Went Wrong");
@@ -115,6 +124,7 @@ export default function Admin() {
       const Data = await Res.json();
       if (Data.sucess) {
         setCheckAdminRegister(true);
+
         localStorage.setItem("adminInfo", JSON.stringify({ AdminEmail }));
         toast.success("Admin Login Sucessful");
       } else {

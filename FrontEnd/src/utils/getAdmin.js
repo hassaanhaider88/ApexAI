@@ -1,8 +1,9 @@
 import BackEndURI from "./BackEndURI";
 
-const getToken = JSON.parse(localStorage.getItem("adminInfo"))?.adminToken;
 
 async function getAdminInfo() {
+  const getToken = JSON.parse(localStorage.getItem("adminInfo"))?.adminToken;
+  console.log(getToken);
   try {
     if (!getToken) return false;
     const res = await fetch(`${BackEndURI}/api/admin/info`, {

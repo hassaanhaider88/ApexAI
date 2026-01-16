@@ -1,3 +1,4 @@
+import { IoMdShareAlt } from "react-icons/io";
 import { MdOutlineCloudUpload } from "react-icons/md";
 import { BsFillShieldLockFill } from "react-icons/bs";
 import { BiCheckboxSquare } from "react-icons/bi";
@@ -45,7 +46,7 @@ const SingleStudent = () => {
         setIsUserLogin(false);
       }
     }
-  }, [Location]);
+  }, []);
 
   const getSingleUser = async () => {
     try {
@@ -102,7 +103,7 @@ const SingleStudent = () => {
     }
   };
 
-  const hanldeUserDeletion = async (userId) => {
+  const hanldeUserDeletion = async () => {
     if (confirm("Are You Sure To Delete User")) {
       try {
         const res = await fetch(`${BackEndURI}/api/user/delete-profile`, {
@@ -220,6 +221,11 @@ const SingleStudent = () => {
     saveAs(url, "certificate.jpg");
   };
 
+  const hanldeUserProfileShareClick = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast.success("Link Copied To Clipboard");
+  };
+
   return (
     <div className="min-h-screen bg-black text-white px-6 py-10">
       {/* Page Title */}
@@ -229,7 +235,7 @@ const SingleStudent = () => {
 
       {/* Student Info */}
       <div className="bg-white text-black rounded-xl p-6 mb-10 shadow-lg">
-        <h2 className="text-xl font-semibold mb-4 text-[#F8CB15]">
+        <h2 className="text-xl relative font-semibold mb-4 text-[#F8CB15]">
           Personal Information
         </h2>
 
@@ -284,6 +290,16 @@ const SingleStudent = () => {
               : "Registeration Pending"}
           </span>
           {/* action buttons  */}
+        </div>
+        <div
+          onClick={hanldeUserProfileShareClick}
+          className="absolute bottom-0 cursor-pointer bg-black p-2 rounded-full hover:scale-95 transition-all duration-200 active:scale-105 right-10"
+        >
+          <IoMdShareAlt
+            size={40}
+            color="#EAB308"
+            title="Share Profile With Other"
+          />
         </div>
 
         <div className="AdminOptions w-full  mt-10">

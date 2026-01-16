@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useCourseStore from "../store/useCourseStore";
 import getAdminInfo from "../utils/getAdmin";
 
 export default function Navbar() {
   const Location = useLocation();
+  const navigate = useNavigate();
   const [mobileMenu, setMobileMenu] = useState(false);
   const [IsShowTopBanner, setIsShowTopBanner] = useState(true);
   const [IsAdminLogin, setIsAdminLogin] = useState(false);
@@ -22,28 +23,38 @@ export default function Navbar() {
     } else {
       setIsShowTopBanner(true);
     }
-  }, [Location]);
-
-  useEffect(() => {
-    WhoIsLogin();
-  }, [Location]);
+  }, [Location.pathname]);
 
   const WhoIsLogin = async () => {
     const getAdmin = await getAdminInfo();
+    console.log(getAdmin)
+
     if (getAdmin.sucess) {
       setIsAdminLogin(true);
       setIsUserLogin(false);
-    } else {
-      const user = localStorage.getItem("userinfo");
-      if (user) {
-        setIsAdminLogin(false);
-        setIsUserLogin(true);
-      } else {
-        setIsAdminLogin(false);
-        setIsUserLogin(false);
-      }
+      return;
     }
-  };
+
+    const user = localStorage.getItem("userinfo");
+    if (user) {
+      setIsAdminLogin(false);
+      setIsUserLogin(true);
+    } else {
+      setIsAdminLogin(false);
+      setIsUserLogin(false);
+    }
+  }
+
+  useEffect(() => {
+    console.log("running navbar");
+
+    const run = async () => {
+      await WhoIsLogin();
+    };
+
+    run();
+  }, [Location.pathname]);
+
   const isActive = (path) => {
     if (path.startsWith("#")) {
       return location.hash === path;
@@ -59,6 +70,19 @@ export default function Navbar() {
         element.scrollIntoView({ behavior: "smooth" });
         setMobileMenu(false); // Close menu after click
       }
+    }
+  };
+
+  const handleUserSingOut = () => {
+    const isConfrim = confirm("Are You Sure To Sign Out?");
+    if (isConfrim) {
+      localStorage.removeItem("userinfo");
+      localStorage.removeItem("adminInfo");
+      setIsUserLogin(false);
+      setIsAdminLogin(false);
+      navigate("/");
+    } else {
+      return;
     }
   };
 
@@ -213,22 +237,22 @@ export default function Navbar() {
                     )}
                     <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 opacity-0 invisible scale-95 group-hover:opacity-100 group-hover:visible group-hover:scale-100 transition-all duration-500 z-50">
                       <div className="p-6 space-y-3">
-
-                        {AllCourses && AllCourses?.map((c, i) => (
-                          <Link
-                            key={i}
-                            to={`/courses/${c._id}`}
-                            className="block p-4 rounded-xl hover:bg-purple-50 font-semibold"
-                          >
-                            {c.title}
-                          </Link>
-                        ))}
+                        {AllCourses &&
+                          AllCourses?.map((c, i) => (
+                            <Link
+                              key={i}
+                              to={`/courses/${c._id}`}
+                              className="block p-4 rounded-xl hover:bg-purple-50 font-semibold"
+                            >
+                              {c.title}
+                            </Link>
+                          ))}
                       </div>
                     </div>
                   </div>
                   <h1>
                     {IsAdminLogin || IsUserLogin ? (
-                      ""
+                      <button onClick={handleUserSingOut}>Sing Out</button>
                     ) : (
                       <Link
                         to={"/login"}
